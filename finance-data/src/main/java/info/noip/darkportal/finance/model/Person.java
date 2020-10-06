@@ -9,6 +9,14 @@ public class Person {
     private Set<Income> incomes;
     private Set<Expense> expenses;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

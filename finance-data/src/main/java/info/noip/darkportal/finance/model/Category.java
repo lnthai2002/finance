@@ -7,6 +7,14 @@ public class Category {
     private String name;
     private Set<Payment> payments;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Set<Payment> getPayments() {
         return payments;
     }
