@@ -1,8 +1,19 @@
 package info.noip.darkportal.finance.model;
 
+import java.util.Set;
+
 public class Category {
     private Long id;
     private String name;
+    private Set<Payment> payments;
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
 
     public Category(String name) {
         this.name = name;
