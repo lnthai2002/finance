@@ -6,6 +6,12 @@ import info.noip.darkportal.finance.repository.PersonRepository;
 public class MapPersonRepository extends MapCrudRepository<Person> implements PersonRepository {
     @Override
     public Person save(Person object) {
-        return super.save(object.getId(), object);
+        Long id = object.getId();
+        synchronized (map) {
+            if (id == null) {
+                object.setId(getNextId());
+            }
+            return super.save(object.getId(), object);
+        }
     }
 }

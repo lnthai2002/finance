@@ -8,7 +8,13 @@ import java.util.stream.Collectors;
 public class MapCategoryRepository extends MapCrudRepository<Category> implements CategoryRepository {
     @Override
     public Category save(Category object) {
-        return super.save(object.getId(), object);
+        Long id = object.getId();
+        synchronized (map) {
+            if (id == null) {
+                object.setId(getNextId());
+            }
+            return super.save(object.getId(), object);
+        }
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class MapCrudRepository<T> {
-    private Map<Long, T> map = new HashMap<>();
+    protected Map<Long, T> map = new HashMap<>();
 
     public T save(Long id, T object) {
         map.put(id, object);
@@ -27,5 +27,10 @@ public abstract class MapCrudRepository<T> {
 
     public void deleteById(Long id) {
         map.remove(id);
+    }
+
+    //implementation detail
+    public Long getNextId() {
+        return Long.valueOf(map.size());
     }
 }

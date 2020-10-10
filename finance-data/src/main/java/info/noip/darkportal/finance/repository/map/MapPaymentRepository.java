@@ -10,7 +10,13 @@ public class MapPaymentRepository extends MapCrudRepository<Payment> implements 
 
     @Override
     public Payment save(Payment object) {
-        return super.save(object.getId(), object);
+        Long id = object.getId();
+        synchronized (map) {
+            if (id == null) {
+                object.setId(getNextId());
+            }
+            return super.save(object.getId(), object);
+        }
     }
 
     @Override
