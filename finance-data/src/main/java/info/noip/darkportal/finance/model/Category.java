@@ -6,6 +6,10 @@ public class Category {
     private Long id;
     private String name;
     private Set<Payment> payments;
+    /**
+     * Category with negative effect is a debit, otherwise is a credit
+     */
+    private Integer effect;
 
     public Long getId() {
         return id;
@@ -13,6 +17,14 @@ public class Category {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getEffect() {
+        return effect;
+    }
+
+    public void setEffect(Integer effect) {
+        this.effect = effect;
     }
 
     public Set<Payment> getPayments() {
