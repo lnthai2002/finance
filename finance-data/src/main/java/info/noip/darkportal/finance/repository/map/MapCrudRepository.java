@@ -1,4 +1,4 @@
-package repository.map;
+package info.noip.darkportal.finance.repository.map;
 
 import repository.CrudRepository;
 
