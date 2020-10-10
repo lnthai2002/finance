@@ -1,4 +1,4 @@
-package repository;
+package info.noip.darkportal.finance.repository;
 
 import java.util.Set;
 

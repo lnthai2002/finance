@@ -1,7 +1,5 @@
 package info.noip.darkportal.finance.repository.map;
 
-import repository.CrudRepository;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
