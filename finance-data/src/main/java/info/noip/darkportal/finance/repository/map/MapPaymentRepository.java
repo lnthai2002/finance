@@ -2,10 +2,12 @@ package info.noip.darkportal.finance.repository.map;
 
 import info.noip.darkportal.finance.model.Payment;
 import info.noip.darkportal.finance.repository.PaymentRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Repository
 public class MapPaymentRepository extends MapCrudRepository<Payment> implements PaymentRepository {
 
     @Override
