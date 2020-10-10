@@ -6,8 +6,8 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
-    private Set<Income> incomes;
-    private Set<Expense> expenses;
+    private Set<Payment> incomes;
+    private Set<Payment> expenses;
 
     public Long getId() {
         return id;
@@ -38,19 +38,19 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Set<Income> getIncomes() {
+    public Set<Payment> getIncomes() {
         return incomes;
     }
 
-    public void setIncomes(Set<Income> incomes) {
+    public void setIncomes(Set<Payment> incomes) {
         this.incomes = incomes;
     }
 
-    public Set<Expense> getExpenses() {
+    public Set<Payment> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(Set<Expense> expenses) {
+    public void setExpenses(Set<Payment> expenses) {
         this.expenses = expenses;
     }
 }
