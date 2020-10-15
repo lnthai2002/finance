@@ -1,7 +1,7 @@
-package info.noip.darkportal.finance.repository.map;
+package info.noip.darkportal.finance.data.repository.map;
 
-import info.noip.darkportal.finance.model.Category;
-import info.noip.darkportal.finance.repository.CategoryRepository;
+import info.noip.darkportal.finance.data.model.Category;
+import info.noip.darkportal.finance.data.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;

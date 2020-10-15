@@ -1,4 +1,4 @@
-package info.noip.darkportal.finance.model;
+package info.noip.darkportal.finance.data.model;
 
 public class PaymentType {
     private Long id;

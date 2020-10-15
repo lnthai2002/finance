@@ -1,6 +1,6 @@
-package info.noip.darkportal.finance.repository;
+package info.noip.darkportal.finance.data.repository;
 
-import info.noip.darkportal.finance.model.Payment;
+import info.noip.darkportal.finance.data.model.Payment;
 
 import java.util.Set;
 

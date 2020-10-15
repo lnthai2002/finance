@@ -1,16 +1,16 @@
-package info.noip.darkportal.finance.bootstrap;
+package info.noip.darkportal.finance.data.bootstrap;
 
-import info.noip.darkportal.finance.model.Category;
-import info.noip.darkportal.finance.model.Payment;
-import info.noip.darkportal.finance.model.PaymentType;
-import info.noip.darkportal.finance.model.Person;
+import info.noip.darkportal.finance.data.model.Category;
+import info.noip.darkportal.finance.data.model.Payment;
+import info.noip.darkportal.finance.data.model.PaymentType;
+import info.noip.darkportal.finance.data.model.Person;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import info.noip.darkportal.finance.repository.CategoryRepository;
-import info.noip.darkportal.finance.repository.PaymentRepository;
-import info.noip.darkportal.finance.repository.PaymentTypeRepository;
-import info.noip.darkportal.finance.repository.PersonRepository;
+import info.noip.darkportal.finance.data.repository.CategoryRepository;
+import info.noip.darkportal.finance.data.repository.PaymentRepository;
+import info.noip.darkportal.finance.data.repository.PaymentTypeRepository;
+import info.noip.darkportal.finance.data.repository.PersonRepository;
 
 import java.text.SimpleDateFormat;
 
