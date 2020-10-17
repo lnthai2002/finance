@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>finance-web</artifactId>
+    <artifactId>finance.web</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>info.noip.darkportal</groupId>
-            <artifactId>finance-data</artifactId>
+            <artifactId>finance.data</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
