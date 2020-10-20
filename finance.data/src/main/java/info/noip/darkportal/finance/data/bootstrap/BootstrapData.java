@@ -12,7 +12,8 @@ import info.noip.darkportal.finance.data.repository.PaymentRepository;
 import info.noip.darkportal.finance.data.repository.PaymentTypeRepository;
 import info.noip.darkportal.finance.data.repository.PersonRepository;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @Profile({"mapdata","default"})
@@ -68,30 +69,30 @@ public class BootstrapData implements CommandLineRunner {
         personRepository.save(jane);
 
         //some payment
-        SimpleDateFormat dateFm =new SimpleDateFormat("YYYY-MM-dd");
+        DateTimeFormatter dateFm = DateTimeFormatter.ofPattern("yyyy-MM-d");
         Payment p1 = new Payment();
-        p1.setTransactionDate(dateFm.parse("2020-01-10"));
+        p1.setTransactionDate(LocalDate.parse("2020-01-10", dateFm));
         p1.setCategory(housing);
         p1.setAmountCents(100000L);
         p1.setPaymentType(debitCard);
         p1.setPerson(jane);
 
         Payment p2 = new Payment();
-        p2.setTransactionDate(dateFm.parse("2020-01-11"));
+        p2.setTransactionDate(LocalDate.parse("2020-01-11", dateFm));
         p2.setCategory(grocery);
         p2.setAmountCents(20000L);
         p2.setPaymentType(creditCard);
         p2.setPerson(john);
 
         Payment p3 = new Payment();
-        p3.setTransactionDate(dateFm.parse("2020-01-12"));
+        p3.setTransactionDate(LocalDate.parse("2020-01-12", dateFm));
         p3.setCategory(electricity);
         p3.setAmountCents(10000L);
         p3.setPaymentType(paypal);
         p3.setPerson(jane);
 
         Payment p4 = new Payment();
-        p4.setTransactionDate(dateFm.parse("2020-01-13"));
+        p4.setTransactionDate(LocalDate.parse("2020-01-13", dateFm));
         p4.setCategory(salary);
         p4.setAmountCents(150000L);
         p4.setPaymentType(debitCard);
