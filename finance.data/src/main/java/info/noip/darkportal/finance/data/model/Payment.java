@@ -1,14 +1,21 @@
 package info.noip.darkportal.finance.data.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate transactionDate;
     private Long amountCents;
+    @ManyToOne
     private PaymentType paymentType;
+    @ManyToOne
     private Category category;
+    @ManyToOne
     private Person person;
 
     public LocalDate getTransactionDate() {

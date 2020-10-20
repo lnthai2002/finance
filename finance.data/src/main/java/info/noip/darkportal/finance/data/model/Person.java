@@ -1,12 +1,18 @@
 package info.noip.darkportal.finance.data.model;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
+    @OneToMany(mappedBy = "person")
     private Set<Payment> incomes;
+    @OneToMany(mappedBy = "person")
     private Set<Payment> expenses;
 
     public Long getId() {
