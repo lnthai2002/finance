@@ -2,9 +2,10 @@ package info.noip.darkportal.finance.data.repository;
 
 import info.noip.darkportal.finance.data.model.Payment;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PaymentRepository extends CrudRepository<Payment> {
-    Set<Payment> findAllExpenses();
-    Set<Payment> findAllIncomes();
+    List<Payment> findAll();
+    List<Payment> findAllExpenses();
+    List<Payment> findAllIncomes();
 }

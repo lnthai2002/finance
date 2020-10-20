@@ -1,9 +1,6 @@
 package info.noip.darkportal.finance.data.repository.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class MapCrudRepository<T> {
     protected Map<Long, T> map = new HashMap<>();
@@ -13,8 +10,8 @@ public abstract class MapCrudRepository<T> {
         return object;
     }
 
-    public Set<T> findAll() {
-        return new HashSet<>(map.values());
+    public Collection<T> findAll() {
+        return map.values();
     }
 
     public T findById(Long id) {

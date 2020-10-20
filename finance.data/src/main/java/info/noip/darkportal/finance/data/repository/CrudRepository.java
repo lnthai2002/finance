@@ -1,10 +1,10 @@
 package info.noip.darkportal.finance.data.repository;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface CrudRepository<T> {
     T save(T object);
-    Set<T> findAll();
+    Collection<T> findAll();
     T findById(Long id);
     void delete(T object);
     void deleteById(Long id);
