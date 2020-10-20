@@ -9,7 +9,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Set<Payment> payments;
+
     /**
      * Category with negative effect is a debit, otherwise is a credit
      */
@@ -29,14 +29,6 @@ public class Category {
 
     public void setEffect(Integer effect) {
         this.effect = effect;
-    }
-
-    public Set<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
     }
 
     public Category(String name) {
