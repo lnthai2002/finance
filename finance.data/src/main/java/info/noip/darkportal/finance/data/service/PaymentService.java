@@ -4,7 +4,7 @@ import info.noip.darkportal.finance.data.model.Payment;
 
 import java.util.List;
 
-public interface PaymentRepository extends CrudRepository<Payment> {
+public interface PaymentService extends CrudService<Payment> {
     List<Payment> findAll();
     List<Payment> findAllExpenses();
     List<Payment> findAllIncomes();

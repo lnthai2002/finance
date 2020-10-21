@@ -1,7 +1,7 @@
 package info.noip.darkportal.finance.data.service.map;
 
 import info.noip.darkportal.finance.data.model.Category;
-import info.noip.darkportal.finance.data.service.CategoryRepository;
+import info.noip.darkportal.finance.data.service.CategoryService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @Profile("mapdata")
-public class MapCategoryRepository extends MapCrudRepository<Category> implements CategoryRepository {
+public class MapCategoryService extends MapCrudService<Category> implements CategoryService {
     @Override
     public Category save(Category object) {
         Long id = object.getId();

@@ -7,10 +7,10 @@ import info.noip.darkportal.finance.data.model.Person;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import info.noip.darkportal.finance.data.service.CategoryRepository;
-import info.noip.darkportal.finance.data.service.PaymentRepository;
-import info.noip.darkportal.finance.data.service.PaymentTypeRepository;
-import info.noip.darkportal.finance.data.service.PersonRepository;
+import info.noip.darkportal.finance.data.service.CategoryService;
+import info.noip.darkportal.finance.data.service.PaymentService;
+import info.noip.darkportal.finance.data.service.PaymentTypeService;
+import info.noip.darkportal.finance.data.service.PersonService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,14 +19,14 @@ import java.time.format.DateTimeFormatter;
 @Profile({"mapdata","default"})
 public class BootstrapData implements CommandLineRunner {
 
-    private PaymentTypeRepository paymentTypeRepository;
-    private CategoryRepository categoryRepository;
-    private PersonRepository personRepository;
-    private PaymentRepository paymentRepository;
+    private PaymentTypeService paymentTypeRepository;
+    private CategoryService categoryService;
+    private PersonService personRepository;
+    private PaymentService paymentRepository;
 
-    public BootstrapData(PaymentTypeRepository paymentTypeRepository, CategoryRepository categoryRepository, PersonRepository personRepository, PaymentRepository paymentRepository) {
+    public BootstrapData(PaymentTypeService paymentTypeRepository, CategoryService categoryService, PersonService personRepository, PaymentService paymentRepository) {
         this.paymentTypeRepository = paymentTypeRepository;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
         this.personRepository = personRepository;
         this.paymentRepository = paymentRepository;
     }
@@ -55,12 +55,12 @@ public class BootstrapData implements CommandLineRunner {
         grocery.setEffect(-1);
         Category salary = new Category("Salary");
         salary.setEffect(1);
-        categoryRepository.save(housing);
-        categoryRepository.save(electricity);
-        categoryRepository.save(water);
-        categoryRepository.save(restaurant);
-        categoryRepository.save(grocery);
-        categoryRepository.save(salary);
+        categoryService.save(housing);
+        categoryService.save(electricity);
+        categoryService.save(water);
+        categoryService.save(restaurant);
+        categoryService.save(grocery);
+        categoryService.save(salary);
 
         //some people
         Person john = new Person("John", "Doe");

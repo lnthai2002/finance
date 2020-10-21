@@ -2,7 +2,7 @@ package info.noip.darkportal.finance.data.service.map;
 
 import java.util.*;
 
-public abstract class MapCrudRepository<T> {
+public abstract class MapCrudService<T> {
     protected Map<Long, T> map = new HashMap<>();
 
     public T save(Long id, T object) {
