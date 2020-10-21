@@ -1,7 +1,7 @@
 package info.noip.darkportal.finance.web.controller;
 
 import info.noip.darkportal.finance.data.model.Payment;
-import info.noip.darkportal.finance.data.repository.PaymentRepository;
+import info.noip.darkportal.finance.data.service.PaymentRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

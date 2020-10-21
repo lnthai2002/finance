@@ -1,7 +1,7 @@
-package info.noip.darkportal.finance.data.repository.map;
+package info.noip.darkportal.finance.data.service.map;
 
 import info.noip.darkportal.finance.data.model.PaymentType;
-import info.noip.darkportal.finance.data.repository.PaymentTypeRepository;
+import info.noip.darkportal.finance.data.service.PaymentTypeRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

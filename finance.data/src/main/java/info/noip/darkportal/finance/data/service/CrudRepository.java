@@ -1,4 +1,4 @@
-package info.noip.darkportal.finance.data.repository;
+package info.noip.darkportal.finance.data.service;
 
 import java.util.Collection;
 
