@@ -3,12 +3,12 @@ package info.noip.darkportal.finance.data.service.map;
 import info.noip.darkportal.finance.data.model.Category;
 import info.noip.darkportal.finance.data.service.CategoryService;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Repository
+@Service
 @Profile("mapdata")
 public class MapCategoryService extends MapCrudService<Category> implements CategoryService {
     @Override

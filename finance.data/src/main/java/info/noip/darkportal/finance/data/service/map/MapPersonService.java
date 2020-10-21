@@ -3,9 +3,9 @@ package info.noip.darkportal.finance.data.service.map;
 import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.service.PersonService;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service
 @Profile("mapdata")
 public class MapPersonService extends MapCrudService<Person> implements PersonService {
     @Override
