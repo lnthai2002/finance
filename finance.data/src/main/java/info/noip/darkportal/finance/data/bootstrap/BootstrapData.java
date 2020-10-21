@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-@Profile({"mapdata","default"})
+//@Profile({"mapdata","default"})
 public class BootstrapData implements CommandLineRunner {
 
     private PaymentTypeService paymentTypeRepository;
