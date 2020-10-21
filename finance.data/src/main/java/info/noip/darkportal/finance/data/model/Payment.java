@@ -4,17 +4,16 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Payment extends BaseEntity {
     private LocalDate transactionDate;
     private Long amountCents;
+
     @ManyToOne
     private PaymentType paymentType;
+
     @ManyToOne
     private Category category;
+
     @ManyToOne
     private Person person;
 
@@ -45,14 +44,6 @@ public class Payment {
         this.paymentType = paymentType;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Person getPerson() {
         return person;
     }
@@ -72,7 +63,7 @@ public class Payment {
     @Override
     public String toString() {
         return "Payment{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", date=" + transactionDate.toString() +
                 ", amount_cents=" + amountCents +
                 ", payment type=" + paymentType.getName() +

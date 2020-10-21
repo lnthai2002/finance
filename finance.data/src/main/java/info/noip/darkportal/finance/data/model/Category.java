@@ -1,13 +1,9 @@
 package info.noip.darkportal.finance.data.model;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Category extends BaseEntity {
     private String name;
 
     /**
@@ -15,12 +11,11 @@ public class Category {
      */
     private Integer effect;
 
-    public Long getId() {
-        return id;
+    public Category() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Category(String name) {
+        this.name = name;
     }
 
     public Integer getEffect() {
@@ -29,10 +24,6 @@ public class Category {
 
     public void setEffect(Integer effect) {
         this.effect = effect;
-    }
-
-    public Category(String name) {
-        this.name = name;
     }
 
     public void setName(String name) {

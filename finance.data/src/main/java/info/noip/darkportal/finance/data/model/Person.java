@@ -4,23 +4,17 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Person extends BaseEntity {
     private String firstName;
     private String lastName;
+
     @OneToMany(mappedBy = "person")
     private Set<Payment> incomes;
+
     @OneToMany(mappedBy = "person")
     private Set<Payment> expenses;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Person() {
     }
 
     public Person(String firstName, String lastName) {
