@@ -7,10 +7,10 @@ import info.noip.darkportal.finance.data.model.Person;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import info.noip.darkportal.finance.data.repository.CategoryRepository;
-import info.noip.darkportal.finance.data.repository.PaymentRepository;
-import info.noip.darkportal.finance.data.repository.PaymentTypeRepository;
-import info.noip.darkportal.finance.data.repository.PersonRepository;
+import info.noip.darkportal.finance.data.service.CategoryRepository;
+import info.noip.darkportal.finance.data.service.PaymentRepository;
+import info.noip.darkportal.finance.data.service.PaymentTypeRepository;
+import info.noip.darkportal.finance.data.service.PersonRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

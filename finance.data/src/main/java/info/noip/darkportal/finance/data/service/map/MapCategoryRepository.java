@@ -2,12 +2,14 @@ package info.noip.darkportal.finance.data.repository.map;
 
 import info.noip.darkportal.finance.data.model.Category;
 import info.noip.darkportal.finance.data.repository.CategoryRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
+@Profile("mapdata")
 public class MapCategoryRepository extends MapCrudRepository<Category> implements CategoryRepository {
     @Override
     public Category save(Category object) {

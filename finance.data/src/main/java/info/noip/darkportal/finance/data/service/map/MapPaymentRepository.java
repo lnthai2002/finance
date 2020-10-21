@@ -2,6 +2,7 @@ package info.noip.darkportal.finance.data.repository.map;
 
 import info.noip.darkportal.finance.data.model.Payment;
 import info.noip.darkportal.finance.data.repository.PaymentRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@Profile("mapdata")
 public class MapPaymentRepository extends MapCrudRepository<Payment> implements PaymentRepository {
 
     @Override

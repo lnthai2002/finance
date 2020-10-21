@@ -2,9 +2,11 @@ package info.noip.darkportal.finance.data.repository.map;
 
 import info.noip.darkportal.finance.data.model.PaymentType;
 import info.noip.darkportal.finance.data.repository.PaymentTypeRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile("mapdata")
 public class MapPaymentTypeRepository extends MapCrudRepository<PaymentType> implements PaymentTypeRepository {
     @Override
     public PaymentType save(PaymentType object) {
