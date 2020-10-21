@@ -1,5 +1,7 @@
 package info.noip.darkportal.finance.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -15,6 +17,7 @@ public class Payment extends BaseEntity {
     private Category category;
 
     @ManyToOne
+    @JsonIgnoreProperties({"expenses", "incomes"})
     private Person person;
 
     public LocalDate getTransactionDate() {
