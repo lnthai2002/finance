@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -30,11 +31,18 @@ public class JpaPaymentService implements PaymentService {
     }
 
     @Override
-    public List<Payment> findAll() {
+    public Collection<Payment> findAll() {
         return StreamSupport.stream(
                 paymentRepository.findAll(
-                        Sort.by(Sort.Direction.DESC, "transactionDate"))
-                        .spliterator(), false)
+                        Sort.by(Sort.Direction.DESC, "transactionDate")
+                ).spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Payment> findAll(Long personId) {
+        return StreamSupport.stream(
+                paymentRepository.findAllByPersonId(personId).spliterator(), false)
                 .collect(Collectors.toList());
     }
 

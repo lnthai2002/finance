@@ -5,8 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PaymentRepository extends BaseRepository<Payment, Long> {
-    @Override
-    Iterable<Payment> findAll();
+    Iterable<Payment> findAllByPersonId(Long personId);
 
     @Override
     Iterable<Payment> findAll(Sort sort);

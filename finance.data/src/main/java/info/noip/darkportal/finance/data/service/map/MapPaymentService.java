@@ -39,8 +39,10 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     }
 
     @Override
-    public List<Payment> findAll() {
-        List<Payment> payments = super.findAll().stream().collect(Collectors.toList());
+    public List<Payment> findAll(Long personId) {
+        List<Payment> payments = super.findAll().stream()
+                .filter(payment -> personId == payment.getPerson().getId())
+                .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
     }
