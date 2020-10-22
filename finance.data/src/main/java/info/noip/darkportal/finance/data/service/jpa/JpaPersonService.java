@@ -1,5 +1,6 @@
 package info.noip.darkportal.finance.data.service.jpa;
 
+import info.noip.darkportal.finance.data.Messages;
 import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.repository.PersonRepository;
