@@ -25,15 +25,21 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     }
 
     @Override
-    public List<Payment> findAllExpenses() {
-        List<Payment> payments = super.findAll().stream().filter(payment -> payment.getAmountCents() < 0).collect(Collectors.toList());
+    public List<Payment> findAllExpenses(Long personId) {
+        List<Payment> payments = super.findAll().stream()
+                .filter(payment -> personId == payment.getPerson().getId())
+                .filter(payment -> payment.getAmountCents() < 0)
+                .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
     }
 
     @Override
-    public List<Payment> findAllIncomes() {
-        List<Payment> payments = super.findAll().stream().filter(payment -> payment.getAmountCents() > 0).collect(Collectors.toList());
+    public List<Payment> findAllIncomes(Long personId) {
+        List<Payment> payments = super.findAll().stream()
+                .filter(payment -> personId == payment.getPerson().getId())
+                .filter(payment -> payment.getAmountCents() > 0)
+                .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
     }

@@ -63,16 +63,16 @@ public class JpaPaymentService implements PaymentService {
     }
 
     @Override
-    public List<Payment> findAllExpenses() {
+    public List<Payment> findAllExpenses(Long personId) {
         return StreamSupport.stream(
-                paymentRepository.findExpenses().spliterator(), false)
+                paymentRepository.findExpenses(personId).spliterator(), false)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> findAllIncomes() {
+    public List<Payment> findAllIncomes(Long personId) {
         return StreamSupport.stream(
-                paymentRepository.findByCategoryEffect(1).spliterator(), false)
+                paymentRepository.findIncomes(personId).spliterator(), false)
                 .collect(Collectors.toList());
     }
 }

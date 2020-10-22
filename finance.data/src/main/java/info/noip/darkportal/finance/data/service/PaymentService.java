@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PaymentService extends CrudService<Payment> {
     List<Payment> findAll(Long personId);
-    List<Payment> findAllExpenses();
-    List<Payment> findAllIncomes();
+    List<Payment> findAllExpenses(Long personId);
+    List<Payment> findAllIncomes(Long personId);
 }
