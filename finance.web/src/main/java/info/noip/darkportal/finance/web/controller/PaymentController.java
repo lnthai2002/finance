@@ -2,10 +2,7 @@ package info.noip.darkportal.finance.web.controller;
 
 import info.noip.darkportal.finance.data.model.Payment;
 import info.noip.darkportal.finance.data.service.PaymentService;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +16,8 @@ public class PaymentController {
     }
 
     @GetMapping({"","/"})
-    public List<Payment> getPayments(Model model) {
-        List<Payment> payments = paymentService.findAll();
+    public List<Payment> getPayments(@RequestParam Long personId) {
+        List<Payment> payments = paymentService.findAll(personId);
         return payments;
     }
 }
