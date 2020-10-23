@@ -1,13 +1,20 @@
 package info.noip.darkportal.finance.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Setter
+@Getter
 public class Payment extends BaseEntity {
     private LocalDate transactionDate;
+
+    @Setter(AccessLevel.NONE)//exclude setter from auto generation for this field
     private Long amountCents;
 
     @ManyToOne
@@ -20,47 +27,11 @@ public class Payment extends BaseEntity {
     @JsonIgnoreProperties({"expenses", "incomes"})
     private Person person;
 
-    public LocalDate getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
-    public Long getAmountCents() {
-        return amountCents;
-    }
-
     public void setAmountCents(Long amountCents) {
         if(getCategory() == null) {
             throw new IllegalStateException("Cannot set amount without a category");
         }
         this.amountCents = Math.abs(amountCents) * getCategory().getEffect();
-    }
-
-    public PaymentType getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     @Override
@@ -74,5 +45,4 @@ public class Payment extends BaseEntity {
                 ", owner=" + person.getFirstName() + " " + person.getLastName() +
                 '}';
     }
-
 }

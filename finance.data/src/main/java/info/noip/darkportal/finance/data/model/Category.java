@@ -1,8 +1,13 @@
 package info.noip.darkportal.finance.data.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Category extends BaseEntity {
     private String name;
 
@@ -16,21 +21,5 @@ public class Category extends BaseEntity {
 
     public Category(String name) {
         this.name = name;
-    }
-
-    public Integer getEffect() {
-        return effect;
-    }
-
-    public void setEffect(Integer effect) {
-        this.effect = effect;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 }
