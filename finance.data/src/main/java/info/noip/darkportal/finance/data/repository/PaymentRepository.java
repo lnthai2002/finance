@@ -12,9 +12,16 @@ public interface PaymentRepository extends BaseRepository<Payment, Long> {
 
     Iterable<Payment> findByCategoryEffect(Integer direction);
 
-    @Query("select p from Payment p, Category c where p.person.id = ?1 and c.effect = -1")
+    @Query("select p from Payment p inner join Category c " +
+            "on p.category.id = c.id " +
+            "where p.person.id = ?1 and c.effect = -1")
     Iterable<Payment> findExpenses(Long personId);
 
-    @Query("select p from Payment p, Category c where p.person.id = ?1 and c.effect = 1")
+    @Query(value = "select p.* " +
+            "from Payment p, Category c " +
+            "where p.category_id = c.id and " +
+            "p.person_id = ?1 and " +
+            "c.effect > 0",
+    nativeQuery = true)
     Iterable<Payment> findIncomes(Long personId);
 }
