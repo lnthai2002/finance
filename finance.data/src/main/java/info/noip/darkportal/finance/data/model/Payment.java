@@ -22,6 +22,9 @@ public class Payment extends BaseEntity {
     @JsonIgnoreProperties({"expenses", "incomes"})
     private Person person;
 
+    public Payment() {
+    }
+
     public Payment(LocalDate transactionDate, Long amountCents, PaymentType paymentType, Category category, Person person) {
         this.transactionDate = transactionDate;
         this.paymentType = paymentType;
