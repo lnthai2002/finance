@@ -1,4 +1,4 @@
-package info.noip.darkportal.finance.web.controller;
+package info.noip.darkportal.finance.api.v1.controller;
 
 import info.noip.darkportal.finance.data.Messages;
 import info.noip.darkportal.finance.data.model.Payment;
@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This @RestController replace @Controller and @ResponseBody annotation
+ * */
 @RestController
 @RequestMapping("/people")
 public class PersonController {

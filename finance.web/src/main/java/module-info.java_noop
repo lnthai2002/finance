@@ -9,6 +9,6 @@ module finance.web {
     requires finance.data;
 
     exports info.noip.darkportal.finance;
-    exports info.noip.darkportal.finance.web.controller;
+    exports info.noip.darkportal.finance.api.v1.controller;
     opens info.noip.darkportal.finance;
 }

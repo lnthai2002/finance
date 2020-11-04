@@ -1,4 +1,4 @@
-package info.noip.darkportal.finance.web.controller;
+package info.noip.darkportal.finance.api.v1.controller;
 
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import org.springframework.core.Ordered;

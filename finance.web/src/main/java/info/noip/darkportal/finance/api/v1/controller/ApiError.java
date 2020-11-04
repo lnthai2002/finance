@@ -1,4 +1,4 @@
-package info.noip.darkportal.finance.web.controller;
+package info.noip.darkportal.finance.api.v1.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
