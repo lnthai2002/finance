@@ -92,7 +92,7 @@ class PersonControllerTest extends AbstractTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]").isArray())
                 .andExpect(jsonPath("$[*]", hasSize(1)))
-                .andExpect(jsonPath("$[0].amountCents").value(lessThan(0L)));
+                .andExpect(jsonPath("$[0].amountCents").value(lessThan(0)));
     }
 
     @Test
