@@ -2,6 +2,7 @@ package info.noip.darkportal.finance.api.v1.controller;
 
 import info.noip.darkportal.finance.data.model.Category;
 import info.noip.darkportal.finance.data.model.Payment;
+import info.noip.darkportal.finance.data.model.PaymentType;
 import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
@@ -11,12 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,10 +30,6 @@ class PersonControllerTest extends AbstractTest {
     private PersonService personService;
     @Mock
     private PaymentService paymentService;
-    @Mock
-    private Person testPerson;
-    @Mock
-    private Payment expense;
 
     private PersonController personController;
 
@@ -49,10 +44,13 @@ class PersonControllerTest extends AbstractTest {
 
     @Test
     void getPerson() throws Exception {
+        //if we mock a person, when Spring builds a response body it will fail because json serializer cant serialize the mock object
+        Person testPerson = Person.Builder.aPerson()
+                .withFirstName(FIRST_NAME)
+                .withLastName(LAST_NAME)
+                .build();
         //given that the person service will return 1 person with first and last name
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
-        when(testPerson.getFirstName()).thenReturn(FIRST_NAME);
-        when(testPerson.getLastName()).thenReturn(LAST_NAME);
 
         //we expect to receive a json object with first and last name when calling the API
         mvc.perform(get("/people/" + PERSON_ID))
@@ -63,10 +61,31 @@ class PersonControllerTest extends AbstractTest {
 
     @Test
     void getExpenses() throws Exception {
+        Person testPerson = Person.Builder.aPerson()
+                .withFirstName(FIRST_NAME)
+                .withLastName(LAST_NAME)
+                .withExpenses(
+                        Arrays.asList(
+                                Payment.Builder.aPayment()
+                                        .withTransactionDate(LocalDate.now())
+                                        .withAmountCents(10000L)
+                                        .withPaymentType(
+                                                PaymentType.Builder.aPaymentType()
+                                                        .withName("Paypal")
+                                                        .build()
+                                        )
+                                        .withCategory(
+                                                Category.Builder.aCategory()
+                                                        .withName("Grocery")
+                                                        .withEffect(-1)
+                                                        .build()
+                                        )
+                                        .build()
+                        )
+                )
+                .build();
         //given that the person service will return 1 person with an expense
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
-        when(testPerson.getExpenses()).thenReturn(Arrays.asList(expense));
-        when(expense.getAmountCents()).thenReturn(-1000L);
 
         //we expect an array of Payment, each has amount less than 0
         mvc.perform(get("/people/" + PERSON_ID + "/expenses"))
