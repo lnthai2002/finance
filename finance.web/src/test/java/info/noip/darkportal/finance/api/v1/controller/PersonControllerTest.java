@@ -90,7 +90,7 @@ class PersonControllerTest extends AbstractTest {
         //we expect an array of Payment, each has amount less than 0
         mvc.perform(get("/people/" + PERSON_ID + "/expenses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[]").isArray())
+                .andExpect(jsonPath("$[*]").isArray())
                 .andExpect(jsonPath("$[]", hasSize(2)))
                 .andExpect(jsonPath("$[0].amountCents").value(lessThan(0L)));
     }
