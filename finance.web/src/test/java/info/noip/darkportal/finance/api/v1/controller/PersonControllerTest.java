@@ -96,7 +96,39 @@ class PersonControllerTest extends AbstractTest {
     }
 
     @Test
-    void getIncomes() {
+    void getIncomes() throws Exception {
+        Person testPerson = Person.Builder.aPerson()
+                .withFirstName(FIRST_NAME)
+                .withLastName(LAST_NAME)
+                .withIncomes(
+                        Arrays.asList(
+                                Payment.Builder.aPayment()
+                                        .withTransactionDate(LocalDate.now())
+                                        .withAmountCents(200000L)
+                                        .withPaymentType(
+                                                PaymentType.Builder.aPaymentType()
+                                                        .withName("Cash")
+                                                        .build()
+                                        )
+                                        .withCategory(
+                                                Category.Builder.aCategory()
+                                                        .withName("Salary")
+                                                        .withEffect(1)
+                                                        .build()
+                                        )
+                                        .build()
+                        )
+                )
+                .build();
+        //given that the person service will return 1 person with an income
+        when(personService.findById(PERSON_ID)).thenReturn(testPerson);
+
+        //we expect an array of Payment, each has amount more than 0
+        mvc.perform(get("/people/" + PERSON_ID + "/incomes"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]").isArray())
+                .andExpect(jsonPath("$[*]", hasSize(1)))
+                .andExpect(jsonPath("$[0].amountCents").value(greaterThan(0)));
     }
 
     @Test
