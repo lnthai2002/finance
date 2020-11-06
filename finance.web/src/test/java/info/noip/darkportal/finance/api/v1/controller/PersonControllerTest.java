@@ -44,7 +44,7 @@ class PersonControllerTest extends AbstractTest {
     }
 
     @Test
-    void getPerson() throws Exception {
+    void shouldReturnAPerson() throws Exception {
         //if we mock a person, when Spring builds a response body it will fail because json serializer cant serialize the mock object
         Person testPerson = Person.Builder.aPerson()
                 .withFirstName(FIRST_NAME)
@@ -61,7 +61,7 @@ class PersonControllerTest extends AbstractTest {
     }
 
     @Test
-    void getExpenses() throws Exception {
+    void shouldReturnAllExpensesForAPerson() throws Exception {
         Person testPerson = Person.Builder.aPerson()
                 .withFirstName(FIRST_NAME)
                 .withLastName(LAST_NAME)
@@ -97,7 +97,7 @@ class PersonControllerTest extends AbstractTest {
     }
 
     @Test
-    void getIncomes() throws Exception {
+    void shouldReturnAllIncomesForAPerson() throws Exception {
         Person testPerson = Person.Builder.aPerson()
                 .withFirstName(FIRST_NAME)
                 .withLastName(LAST_NAME)
