@@ -1,8 +1,9 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
+import info.noip.darkportal.finance.api.v1.dto.PersonResponseDTO;
+import info.noip.darkportal.finance.api.v1.mapper.PersonMapper;
 import info.noip.darkportal.finance.data.Messages;
 import info.noip.darkportal.finance.data.model.Payment;
-import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
@@ -19,16 +20,19 @@ public class PersonController {
     private PersonService personService;
     private PaymentService paymentService;
     private Messages messages;
+    private PersonMapper personMapper;
 
-    public PersonController(PersonService personService, PaymentService paymentService, Messages messages) {
+    public PersonController(PersonService personService, PaymentService paymentService, Messages messages, PersonMapper personMapper) {
         this.personService = personService;
         this.paymentService = paymentService;
         this.messages = messages;
+        this.personMapper = personMapper;
     }
 
     @GetMapping("/{personId}")
-    public Person getPerson(@PathVariable Long personId) {
-        return personService.findById(personId);
+    public PersonResponseDTO getPerson(@PathVariable Long personId) {
+        PersonResponseDTO personResponseDTO = personMapper.fromDomain(personService.findById(personId));
+        return personResponseDTO;
     }
 
     @GetMapping("/{personId}/expenses")
