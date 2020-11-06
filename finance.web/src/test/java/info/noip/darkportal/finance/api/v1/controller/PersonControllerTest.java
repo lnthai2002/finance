@@ -26,6 +26,7 @@ class PersonControllerTest extends AbstractTest {
     public static final Long PERSON_ID = 1L;
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Smith";
+    private static final Long PAYMENT_ID = 1L;
     @Mock
     private PersonService personService;
     @Mock
@@ -132,6 +133,24 @@ class PersonControllerTest extends AbstractTest {
     }
 
     @Test
-    void getPayment() {
+    void shouldReturnAPaymentBelongsToThePersonAsked() throws Exception {
+        //given that we have a person with an ID
+        Person testPerson = Person.Builder.aPerson().build();
+        testPerson.setId(PERSON_ID);
+        //and a payment belongs to such a person
+        Payment aPayment = Payment.Builder.aPayment()
+                .withCategory(Category.Builder.aCategory().withEffect(1).build())
+                .withAmountCents(2000L)
+                .withPerson(testPerson)
+                .build();
+        //and the payment service return the payment above
+        when(paymentService.findById(PAYMENT_ID)).thenReturn(aPayment);
+
+        //we expect a Payment of the person
+        mvc.perform(get("/people/" + PERSON_ID + "/payments/" + PAYMENT_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isMap())
+                .andExpect(jsonPath("$.amountCents").isNumber())
+                .andExpect(jsonPath("$.person.id").value(PERSON_ID));
     }
 }
