@@ -1,5 +1,7 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
+import info.noip.darkportal.finance.api.v1.mapper.PaymentMapper;
+import info.noip.darkportal.finance.api.v1.mapper.PersonMapper;
 import info.noip.darkportal.finance.data.model.Category;
 import info.noip.darkportal.finance.data.model.Payment;
 import info.noip.darkportal.finance.data.model.PaymentType;
@@ -36,9 +38,11 @@ class PersonControllerTest extends AbstractTest {
 
     @BeforeEach
     public void before() {
+        PersonMapper personMapper = new PersonMapper();
+        PaymentMapper paymentMapper = new PaymentMapper();
         MockitoAnnotations.initMocks(this);//inject mock objects to this class
         //a PersonController with mocked services
-        personController = new PersonController(personService, paymentService, null);
+        personController = new PersonController(personService, paymentService, null, personMapper, paymentMapper);
         //a mock MVC with only 1 controller
         mvc = MockMvcBuilders.standaloneSetup(personController).build();
     }
@@ -140,6 +144,11 @@ class PersonControllerTest extends AbstractTest {
         //and a payment belongs to such a person
         Payment aPayment = Payment.Builder.aPayment()
                 .withCategory(Category.Builder.aCategory().withEffect(1).build())
+                .withPaymentType(
+                        PaymentType.Builder.aPaymentType()
+                                .withName("Cash")
+                                .build()
+                )
                 .withAmountCents(2000L)
                 .withPerson(testPerson)
                 .build();
@@ -151,6 +160,6 @@ class PersonControllerTest extends AbstractTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isMap())
                 .andExpect(jsonPath("$.amountCents").isNumber())
-                .andExpect(jsonPath("$.person.id").value(PERSON_ID));
+                .andExpect(jsonPath("$.ownerId").value(PERSON_ID));
     }
 }
