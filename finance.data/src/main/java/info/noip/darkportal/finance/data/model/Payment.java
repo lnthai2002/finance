@@ -29,8 +29,8 @@ public class Payment extends BaseEntity {
         this.transactionDate = transactionDate;
         this.paymentType = paymentType;
         this.category = category;
-        if(this.category == null) {
-            throw new IllegalStateException("Cannot set amount without a category");
+        if(this.category == null || this.category.getEffect() == null) {
+            throw new IllegalStateException("Cannot determine if this is an expense or income");
         }
         this.amountCents = Math.abs(amountCents) * getCategory().getEffect();
         this.person = person;
