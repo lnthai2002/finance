@@ -1,5 +1,6 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
+import info.noip.darkportal.finance.api.v1.dto.PersonRequestDTO;
 import info.noip.darkportal.finance.api.v1.mapper.PaymentMapper;
 import info.noip.darkportal.finance.api.v1.mapper.PersonMapper;
 import info.noip.darkportal.finance.data.model.Category;
@@ -10,8 +11,10 @@ import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
@@ -20,6 +23,7 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -161,5 +165,27 @@ class PersonControllerTest extends AbstractTest {
                 .andExpect(jsonPath("$").isMap())
                 .andExpect(jsonPath("$.amountCents").isNumber())
                 .andExpect(jsonPath("$.ownerId").value(PERSON_ID));
+    }
+
+    @Test
+    void createPerson() throws Exception {
+        //given a request
+        PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
+        //and an created object
+        Person createdPerson = Person.Builder.aPerson()
+                .withFirstName(FIRST_NAME)
+                .withLastName(LAST_NAME)
+                .build();
+        createdPerson.setId(PERSON_ID);
+        //and we trust the service to save the object correctly so that it can return the object
+        when(personService.save(ArgumentMatchers.any(Person.class))).thenReturn(createdPerson);
+
+        //act
+        mvc.perform(post("/people")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(requestDTO)))
+            .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME));
     }
 }

@@ -1,14 +1,18 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
 import info.noip.darkportal.finance.api.v1.dto.PaymentResponseDTO;
+import info.noip.darkportal.finance.api.v1.dto.PersonRequestDTO;
 import info.noip.darkportal.finance.api.v1.dto.PersonResponseDTO;
 import info.noip.darkportal.finance.api.v1.mapper.PaymentMapper;
 import info.noip.darkportal.finance.api.v1.mapper.PersonMapper;
 import info.noip.darkportal.finance.data.Messages;
 import info.noip.darkportal.finance.data.model.Payment;
+import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,5 +65,13 @@ public class PersonController {
             throw new EntityNotFoundException(messages.get("jpa.entityNotFound"));
         }
         return paymentMapper.fromDomain(payment);
+    }
+
+    @PostMapping({"","/"})
+    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonRequestDTO personReq) {
+        Person person = personService.save(personMapper.fromDto(personReq));
+        ResponseEntity<PersonResponseDTO> resp = new ResponseEntity<>(personMapper.fromDomain(person),
+                HttpStatus.CREATED);
+        return resp;
     }
 }
