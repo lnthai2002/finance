@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -185,7 +186,8 @@ class PersonControllerTest extends AbstractTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(requestDTO)))
             .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
-                .andExpect(jsonPath("$.lastName").value(LAST_NAME));
+            .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+            .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+            .andExpect(header().exists(HttpHeaders.LOCATION));
     }
 }

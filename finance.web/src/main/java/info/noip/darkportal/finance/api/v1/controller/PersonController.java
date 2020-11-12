@@ -11,9 +11,11 @@ import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,10 +70,16 @@ public class PersonController {
     }
 
     @PostMapping({"","/"})
-    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonRequestDTO personReq) {
+    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonRequestDTO personReq, UriComponentsBuilder uriComponentsBuilder) {
         Person person = personService.save(personMapper.fromDto(personReq));
-        ResponseEntity<PersonResponseDTO> resp = new ResponseEntity<>(personMapper.fromDomain(person),
-                HttpStatus.CREATED);
-        return resp;
+
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set(HttpHeaders.LOCATION,
+                uriComponentsBuilder.path("/people/{personId}").buildAndExpand(person.getId()).toUriString());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .headers(responseHeader)
+                .body(personMapper.fromDomain(person));
     }
 }
