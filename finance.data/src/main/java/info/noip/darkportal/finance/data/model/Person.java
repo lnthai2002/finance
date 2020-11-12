@@ -2,12 +2,14 @@ package info.noip.darkportal.finance.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class Person extends BaseEntity {
     private String firstName;
     private String lastName;

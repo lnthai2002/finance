@@ -25,8 +25,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class PersonControllerTest extends AbstractTest {
 
@@ -72,28 +71,25 @@ class PersonControllerTest extends AbstractTest {
     @Test
     void shouldReturnAllExpensesForAPerson() throws Exception {
         Person testPerson = Person.Builder.aPerson()
-                .withFirstName(FIRST_NAME)
-                .withLastName(LAST_NAME)
-                .withExpenses(
-                        Arrays.asList(
-                                Payment.Builder.aPayment()
-                                        .withTransactionDate(LocalDate.now())
-                                        .withAmountCents(10000L)
-                                        .withPaymentType(
-                                                PaymentType.Builder.aPaymentType()
-                                                        .withName("Paypal")
-                                                        .build()
-                                        )
-                                        .withCategory(
-                                                Category.Builder.aCategory()
-                                                        .withName("Grocery")
-                                                        .withEffect(-1)
-                                                        .build()
-                                        )
-                                        .build()
-                        )
-                )
                 .build();
+        testPerson.setId(PERSON_ID);
+        Payment expense = Payment.Builder.aPayment()
+                .withTransactionDate(LocalDate.now())
+                .withAmountCents(10000L)
+                .withPaymentType(
+                        PaymentType.Builder.aPaymentType()
+                                .withName("Paypal")
+                                .build()
+                )
+                .withCategory(
+                        Category.Builder.aCategory()
+                                .withName("Grocery")
+                                .withEffect(-1)
+                                .build()
+                )
+                .withPerson(testPerson)
+                .build();
+        testPerson.setExpenses(Arrays.asList(expense));
         //given that the person service will return 1 person with an expense
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
 
@@ -102,34 +98,32 @@ class PersonControllerTest extends AbstractTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]").isArray())
                 .andExpect(jsonPath("$[*]", hasSize(1)))
-                .andExpect(jsonPath("$[0].amountCents").value(lessThan(0)));
+                .andExpect(jsonPath("$[0].amountCents").value(lessThan(0)))
+                .andExpect(jsonPath("$[0].ownerId").value(PERSON_ID));;
     }
 
     @Test
     void shouldReturnAllIncomesForAPerson() throws Exception {
         Person testPerson = Person.Builder.aPerson()
-                .withFirstName(FIRST_NAME)
-                .withLastName(LAST_NAME)
-                .withIncomes(
-                        Arrays.asList(
-                                Payment.Builder.aPayment()
-                                        .withTransactionDate(LocalDate.now())
-                                        .withAmountCents(200000L)
-                                        .withPaymentType(
-                                                PaymentType.Builder.aPaymentType()
-                                                        .withName("Cash")
-                                                        .build()
-                                        )
-                                        .withCategory(
-                                                Category.Builder.aCategory()
-                                                        .withName("Salary")
-                                                        .withEffect(1)
-                                                        .build()
-                                        )
-                                        .build()
-                        )
-                )
                 .build();
+        testPerson.setId(PERSON_ID);
+        Payment income = Payment.Builder.aPayment()
+                .withTransactionDate(LocalDate.now())
+                .withAmountCents(200000L)
+                .withPaymentType(
+                        PaymentType.Builder.aPaymentType()
+                                .withName("Cash")
+                                .build()
+                )
+                .withCategory(
+                        Category.Builder.aCategory()
+                                .withName("Salary")
+                                .withEffect(1)
+                                .build()
+                )
+                .withPerson(testPerson)
+                .build();
+        testPerson.setIncomes(Arrays.asList(income));
         //given that the person service will return 1 person with an income
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
 
@@ -138,7 +132,8 @@ class PersonControllerTest extends AbstractTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]").isArray())
                 .andExpect(jsonPath("$[*]", hasSize(1)))
-                .andExpect(jsonPath("$[0].amountCents").value(greaterThan(0)));
+                .andExpect(jsonPath("$[0].amountCents").value(greaterThan(0)))
+                .andExpect(jsonPath("$[0].ownerId").value(PERSON_ID));;
     }
 
     @Test
