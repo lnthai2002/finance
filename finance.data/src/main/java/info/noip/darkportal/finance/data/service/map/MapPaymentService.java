@@ -15,19 +15,19 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
 
     @Override
     public Payment save(Payment object) {
-        Long id = object.getId();
+        Long id = object.id();
         synchronized (map) {
             if (id == null) {
-                object.setId(getNextId());
+                object.id(getNextId());
             }
-            return super.save(object.getId(), object);
+            return super.save(object.id(), object);
         }
     }
 
     @Override
     public List<Payment> findAllExpenses(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.person().getId())
+                .filter(payment -> personId == payment.person().id())
                 .filter(payment -> payment.amountCents() < 0)
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
@@ -37,7 +37,7 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     @Override
     public List<Payment> findAllIncomes(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.person().getId())
+                .filter(payment -> personId == payment.person().id())
                 .filter(payment -> payment.amountCents() > 0)
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
@@ -47,7 +47,7 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     @Override
     public List<Payment> findAll(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.person().getId())
+                .filter(payment -> personId == payment.person().id())
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;

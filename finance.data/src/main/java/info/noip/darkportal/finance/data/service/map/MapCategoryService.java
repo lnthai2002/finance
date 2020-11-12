@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 public class MapCategoryService extends MapCrudService<Category> implements CategoryService {
     @Override
     public Category save(Category object) {
-        Long id = object.getId();
+        Long id = object.id();
         synchronized (map) {
             if (id == null) {
-                object.setId(getNextId());
+                object.id(getNextId());
             }
-            return super.save(object.getId(), object);
+            return super.save(object.id(), object);
         }
     }
 

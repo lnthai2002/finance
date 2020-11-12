@@ -12,7 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Accessors(chain = true, fluent = true)
-public class Payment extends BaseEntity {
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDate transactionDate;
     private Long amountCents;
 

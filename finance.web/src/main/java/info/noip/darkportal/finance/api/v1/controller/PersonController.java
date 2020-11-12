@@ -63,7 +63,7 @@ public class PersonController {
     @GetMapping("/{personId}/payments/{paymentId}")
     public PaymentResponseDTO getPayment(@PathVariable Long personId, @PathVariable Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
-        if (payment.person().getId() != personId) {
+        if (payment.person().id() != personId) {
             throw new EntityNotFoundException(messages.get("jpa.entityNotFound"));
         }
         return paymentMapper.fromDomain(payment);
@@ -75,7 +75,7 @@ public class PersonController {
 
         HttpHeaders responseHeader = new HttpHeaders();
         responseHeader.set(HttpHeaders.LOCATION,
-                uriComponentsBuilder.path("/people/{personId}").buildAndExpand(person.getId()).toUriString());
+                uriComponentsBuilder.path("/people/{personId}").buildAndExpand(person.id()).toUriString());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

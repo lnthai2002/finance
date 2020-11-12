@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 public class MapPersonService extends MapCrudService<Person> implements PersonService {
     @Override
     public Person save(Person object) {
-        Long id = object.getId();
+        Long id = object.id();
         synchronized (map) {
             if (id == null) {
-                object.setId(getNextId());
+                object.id(getNextId());
             }
-            return super.save(object.getId(), object);
+            return super.save(object.id(), object);
         }
     }
 }

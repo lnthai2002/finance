@@ -10,7 +10,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Accessors(chain = true, fluent = true)
-public class Category extends BaseEntity {
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
     /**

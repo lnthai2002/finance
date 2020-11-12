@@ -87,7 +87,7 @@ class PaymentRepositoryTest {
         payment = paymentRepository.save(payment);
 
         //validate
-        assertEquals(payment, paymentRepository.findById(payment.getId())
+        assertEquals(payment, paymentRepository.findById(payment.id())
                 .orElseThrow(() -> new EntityNotFoundException("Not found")));
     }
 
@@ -98,7 +98,7 @@ class PaymentRepositoryTest {
         Person person = people.iterator().next();
 
         //act
-        Iterable<Payment> exps = paymentRepository.findExpenses(person.getId());
+        Iterable<Payment> exps = paymentRepository.findExpenses(person.id());
 
         //validate
         assertNotNull(exps);
@@ -115,7 +115,7 @@ class PaymentRepositoryTest {
         Person person = people.iterator().next();
 
         //act
-        Iterable<Payment> incomes = paymentRepository.findIncomes(person.getId());
+        Iterable<Payment> incomes = paymentRepository.findIncomes(person.id());
 
         //validate
         assertNotNull(incomes);

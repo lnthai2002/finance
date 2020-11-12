@@ -12,7 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true, fluent = true)//setter return the object and remove set/get prefix from setters and getter
-public class Person extends BaseEntity {
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
 

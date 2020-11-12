@@ -11,7 +11,7 @@ public class PaymentMapper {
                 payment.amountCents(),
                 payment.paymentType().name(),
                 payment.category().name(),
-                payment.person().getId()
+                payment.person().id()
         );
     }
 }

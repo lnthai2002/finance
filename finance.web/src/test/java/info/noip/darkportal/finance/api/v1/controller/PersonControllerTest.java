@@ -70,7 +70,7 @@ class PersonControllerTest extends AbstractTest {
     @Test
     void shouldReturnAllExpensesForAPerson() throws Exception {
         Person testPerson = new Person();
-        testPerson.setId(PERSON_ID);
+        testPerson.id(PERSON_ID);
         Payment expense = new Payment()
                 .transactionDate(LocalDate.now())
                 .paymentType(
@@ -100,7 +100,7 @@ class PersonControllerTest extends AbstractTest {
     @Test
     void shouldReturnAllIncomesForAPerson() throws Exception {
         Person testPerson = new Person();
-        testPerson.setId(PERSON_ID);
+        testPerson.id(PERSON_ID);
         Payment income = new Payment()
                 .transactionDate(LocalDate.now())
                 .paymentType(
@@ -131,7 +131,7 @@ class PersonControllerTest extends AbstractTest {
     void shouldReturnAPaymentBelongsToThePersonAsked() throws Exception {
         //given that we have a person with an ID
         Person testPerson = new Person();
-        testPerson.setId(PERSON_ID);
+        testPerson.id(PERSON_ID);
         //and a payment belongs to such a person
         Payment aPayment = new Payment()
                 .category(new Category().effect(1))
@@ -158,7 +158,7 @@ class PersonControllerTest extends AbstractTest {
         PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
         //and an created object
         Person createdPerson = new Person();
-        createdPerson.setId(PERSON_ID);
+        createdPerson.id(PERSON_ID);
         //and we trust the service to save the object correctly so that it can return the object
         when(personService.save(ArgumentMatchers.any(Person.class))).thenReturn(createdPerson);
 
