@@ -27,8 +27,8 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     @Override
     public List<Payment> findAllExpenses(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.getPerson().getId())
-                .filter(payment -> payment.getAmountCents() < 0)
+                .filter(payment -> personId == payment.person().getId())
+                .filter(payment -> payment.amountCents() < 0)
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
@@ -37,8 +37,8 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     @Override
     public List<Payment> findAllIncomes(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.getPerson().getId())
-                .filter(payment -> payment.getAmountCents() > 0)
+                .filter(payment -> personId == payment.person().getId())
+                .filter(payment -> payment.amountCents() > 0)
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
@@ -47,7 +47,7 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
     @Override
     public List<Payment> findAll(Long personId) {
         List<Payment> payments = super.findAll().stream()
-                .filter(payment -> personId == payment.getPerson().getId())
+                .filter(payment -> personId == payment.person().getId())
                 .collect(Collectors.toList());
         payments.sort(getPaymentDateComparator());
         return payments;
@@ -57,7 +57,7 @@ public class MapPaymentService extends MapCrudService<Payment> implements Paymen
         return new Comparator<Payment>() {
             @Override
             public int compare(Payment payment1, Payment payment2) {
-                return payment1.getTransactionDate().compareTo(payment2.getTransactionDate());
+                return payment1.transactionDate().compareTo(payment2.transactionDate());
             }
         };
     }

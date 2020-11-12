@@ -32,7 +32,7 @@ public class PaymentController {
     @GetMapping("/{id}")
     public @ResponseBody Payment getPayment(@PathVariable Long id, @RequestParam Long personId) {
         Payment payment = paymentService.findById(id);
-        if (payment.getPerson().getId() != personId) {
+        if (payment.person().getId() != personId) {
             throw new EntityNotFoundException(messages.get("jpa.entityNotFound"));
         }
         return payment;

@@ -4,9 +4,8 @@ import info.noip.darkportal.finance.data.model.Category;
 
 public class CategoryMother {
     public static Category complete() {
-        return Category.Builder.aCategory()
-                .withName("Salary")
-                .withEffect(1)
-                .build();
+        return new Category()
+                .name("Salary")
+                .effect(1);
     }
 }

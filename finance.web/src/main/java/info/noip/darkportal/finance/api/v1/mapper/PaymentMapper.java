@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentMapper {
     public PaymentResponseDTO fromDomain(Payment payment) {
-        return new PaymentResponseDTO(payment.getTransactionDate(),
-                payment.getAmountCents(),
-                payment.getPaymentType().getName(),
-                payment.getCategory().getName(),
-                payment.getPerson().getId()
+        return new PaymentResponseDTO(payment.transactionDate(),
+                payment.amountCents(),
+                payment.paymentType().name(),
+                payment.category().name(),
+                payment.person().getId()
         );
     }
 }

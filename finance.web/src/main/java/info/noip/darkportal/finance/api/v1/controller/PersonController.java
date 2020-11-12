@@ -48,14 +48,14 @@ public class PersonController {
 
     @GetMapping("/{personId}/expenses")
     public List<PaymentResponseDTO> getExpenses(@PathVariable Long personId) {
-        return personService.findById(personId).getExpenses().stream()
+        return personService.findById(personId).expenses().stream()
                 .map(payment -> paymentMapper.fromDomain(payment))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{personId}/incomes")
     public List<PaymentResponseDTO> getIncomes(@PathVariable Long personId) {
-        return personService.findById(personId).getIncomes().stream()
+        return personService.findById(personId).incomes().stream()
                 .map(payment -> paymentMapper.fromDomain(payment))
                 .collect(Collectors.toList());
     }
@@ -63,7 +63,7 @@ public class PersonController {
     @GetMapping("/{personId}/payments/{paymentId}")
     public PaymentResponseDTO getPayment(@PathVariable Long personId, @PathVariable Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
-        if (payment.getPerson().getId() != personId) {
+        if (payment.person().getId() != personId) {
             throw new EntityNotFoundException(messages.get("jpa.entityNotFound"));
         }
         return paymentMapper.fromDomain(payment);

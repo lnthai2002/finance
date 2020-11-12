@@ -37,58 +37,51 @@ class PaymentRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Person employee1 = Person.Builder.aPerson()
-                .withFirstName("John")
-                .withLastName("Doe")
-                .build();
+        Person employee1 = new Person()
+                .firstName("John")
+                .lastName("Doe");
         personRepository.save(employee1);
 
-        PaymentType cash = PaymentType.Builder.aPaymentType()
-                .withName("Cash")
-                .build();
+        PaymentType cash = new PaymentType()
+                .name("Cash");
         paymentTypeRepository.save(cash);
 
-        Category grocery = Category.Builder.aCategory()
-                .withName("Grocery")
-                .withEffect(-1)
-                .build();
+        Category grocery = new Category()
+                .name("Grocery")
+                .effect(-1);
         categoryRepository.save(grocery);
 
-        Category salary = Category.Builder.aCategory()
-                .withName("Salary")
-                .withEffect(1)
-                .build();
+        Category salary = new Category()
+                .name("Salary")
+                .effect(1);
         categoryRepository.save(salary);
 
-        Payment expense = Payment.Builder.aPayment()
-                .withTransactionDate(LocalDate.now())
-                .withAmountCents(20000L)
-                .withPerson(employee1)
-                .withCategory(grocery)
-                .withPaymentType(cash)
-                .build();
+        Payment expense = new Payment()
+                .transactionDate(LocalDate.now())
+                .category(grocery)
+                .amountCents(20000L)
+                .person(employee1)
+                .paymentType(cash);
         paymentRepository.save(expense);
 
-        Payment income = Payment.Builder.aPayment()
-                .withTransactionDate(LocalDate.now())
-                .withAmountCents(100000L)
-                .withPerson(employee1)
-                .withCategory(salary)
-                .withPaymentType(cash)
-                .build();
+        Payment income = new Payment()
+                .transactionDate(LocalDate.now())
+                .category(salary)
+                .amountCents(100000L)
+                .person(employee1)
+                .paymentType(cash);
         paymentRepository.save(income);
     }
 
     @Test
     void save() {
         //given
-        Payment payment = Payment.Builder.aPayment()
-                .withTransactionDate(LocalDate.now())
-                .withAmountCents(10000L)
-                .withPaymentType(PaymentTypeMother.complete())
-                .withCategory(CategoryMother.complete())
-                .withPerson(PersonMother.complete())
-                .build();
+        Payment payment = new Payment()
+                .transactionDate(LocalDate.now())
+                .category(CategoryMother.complete())
+                .amountCents(10000L)
+                .paymentType(PaymentTypeMother.complete())
+                .person(PersonMother.complete());
 
         //act
         payment = paymentRepository.save(payment);
@@ -110,8 +103,8 @@ class PaymentRepositoryTest {
         //validate
         assertNotNull(exps);
         for (Payment exp : exps) {
-            assertTrue(exp.getAmountCents() < 0L);
-            assertTrue(exp.getCategory().getEffect() < 0);
+            assertTrue(exp.amountCents() < 0L);
+            assertTrue(exp.category().effect() < 0);
         }
     }
 
@@ -127,8 +120,8 @@ class PaymentRepositoryTest {
         //validate
         assertNotNull(incomes);
         for (Payment income : incomes) {
-            assertTrue(income.getAmountCents() > 0L);
-            assertTrue(income.getCategory().getEffect() > 0);
+            assertTrue(income.amountCents() > 0L);
+            assertTrue(income.category().effect() > 0);
         }
     }
 }

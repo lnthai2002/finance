@@ -4,8 +4,7 @@ import info.noip.darkportal.finance.data.model.PaymentType;
 
 public class PaymentTypeMother {
     public static PaymentType complete() {
-        return PaymentType.Builder.aPaymentType()
-                .withName("Cash")
-                .build();
+        return new PaymentType()
+                .name("Cash");
     }
 }

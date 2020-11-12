@@ -6,11 +6,10 @@ import java.util.Collections;
 
 public class PersonMother {
     public static Person complete() {
-        return Person.Builder.aPerson()
-                .withFirstName("Jamie")
-                .withLastName("Lanister")
-                .withIncomes(Collections.emptyList())
-                .withExpenses(Collections.emptyList())
-                .build();
+        return new Person()
+                .firstName("Jamie")
+                .lastName("Lanister")
+                .incomes(Collections.emptyList())
+                .expenses(Collections.emptyList());
     }
 }

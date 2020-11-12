@@ -31,10 +31,10 @@ class JpaPaymentServiceTest {
         MockitoAnnotations.initMocks(this);
 
         //an expense is a payment
-        when(expense.getAmountCents()).thenReturn(-10000L);//and has negative amount
+        when(expense.amountCents()).thenReturn(-10000L);//and has negative amount
 
         //an income is a payment
-        when(income.getAmountCents()).thenReturn(20000L);//and has positive amount
+        when(income.amountCents()).thenReturn(20000L);//and has positive amount
 
         //a payment repository is one can return:
         when(paymentRepository.findExpenses(anyLong())).thenReturn(Arrays.asList(new Payment[] {expense}));//some expenses

@@ -8,15 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonMapper {
     public PersonResponseDTO fromDomain(Person person) {
-        return new PersonResponseDTO(person.getFirstName(),
-                person.getLastName());
+        return new PersonResponseDTO(person.firstName(),
+                person.lastName());
     }
 
     public Person fromDto(PersonRequestDTO dto) {
-        Person person = Person.Builder.aPerson()
-                .withFirstName(dto.getFirstName())
-                .withLastName(dto.getLastName())
-                .build();
+        Person person = new Person()
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName());
         return person;
     }
 }

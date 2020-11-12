@@ -54,10 +54,9 @@ class PersonControllerTest extends AbstractTest {
     @Test
     void shouldReturnAPerson() throws Exception {
         //if we mock a person, when Spring builds a response body it will fail because json serializer cant serialize the mock object
-        Person testPerson = Person.Builder.aPerson()
-                .withFirstName(FIRST_NAME)
-                .withLastName(LAST_NAME)
-                .build();
+        Person testPerson = new Person()
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME);
         //given that the person service will return 1 person with first and last name
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
 
@@ -70,26 +69,22 @@ class PersonControllerTest extends AbstractTest {
 
     @Test
     void shouldReturnAllExpensesForAPerson() throws Exception {
-        Person testPerson = Person.Builder.aPerson()
-                .build();
+        Person testPerson = new Person();
         testPerson.setId(PERSON_ID);
-        Payment expense = Payment.Builder.aPayment()
-                .withTransactionDate(LocalDate.now())
-                .withAmountCents(10000L)
-                .withPaymentType(
-                        PaymentType.Builder.aPaymentType()
-                                .withName("Paypal")
-                                .build()
+        Payment expense = new Payment()
+                .transactionDate(LocalDate.now())
+                .paymentType(
+                        new PaymentType()
+                                .name("Paypal")
                 )
-                .withCategory(
-                        Category.Builder.aCategory()
-                                .withName("Grocery")
-                                .withEffect(-1)
-                                .build()
+                .category(
+                        new Category()
+                                .name("Grocery")
+                                .effect(-1)
                 )
-                .withPerson(testPerson)
-                .build();
-        testPerson.setExpenses(Arrays.asList(expense));
+                .amountCents(10000L)
+                .person(testPerson);
+        testPerson.expenses(Arrays.asList(expense));
         //given that the person service will return 1 person with an expense
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
 
@@ -104,26 +99,22 @@ class PersonControllerTest extends AbstractTest {
 
     @Test
     void shouldReturnAllIncomesForAPerson() throws Exception {
-        Person testPerson = Person.Builder.aPerson()
-                .build();
+        Person testPerson = new Person();
         testPerson.setId(PERSON_ID);
-        Payment income = Payment.Builder.aPayment()
-                .withTransactionDate(LocalDate.now())
-                .withAmountCents(200000L)
-                .withPaymentType(
-                        PaymentType.Builder.aPaymentType()
-                                .withName("Cash")
-                                .build()
+        Payment income = new Payment()
+                .transactionDate(LocalDate.now())
+                .paymentType(
+                        new PaymentType()
+                                .name("Cash")
                 )
-                .withCategory(
-                        Category.Builder.aCategory()
-                                .withName("Salary")
-                                .withEffect(1)
-                                .build()
+                .category(
+                        new Category()
+                                .name("Salary")
+                                .effect(1)
                 )
-                .withPerson(testPerson)
-                .build();
-        testPerson.setIncomes(Arrays.asList(income));
+                .amountCents(200000L)
+                .person(testPerson);
+        testPerson.incomes(Arrays.asList(income));
         //given that the person service will return 1 person with an income
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
 
@@ -139,19 +130,17 @@ class PersonControllerTest extends AbstractTest {
     @Test
     void shouldReturnAPaymentBelongsToThePersonAsked() throws Exception {
         //given that we have a person with an ID
-        Person testPerson = Person.Builder.aPerson().build();
+        Person testPerson = new Person();
         testPerson.setId(PERSON_ID);
         //and a payment belongs to such a person
-        Payment aPayment = Payment.Builder.aPayment()
-                .withCategory(Category.Builder.aCategory().withEffect(1).build())
-                .withPaymentType(
-                        PaymentType.Builder.aPaymentType()
-                                .withName("Cash")
-                                .build()
+        Payment aPayment = new Payment()
+                .category(new Category().effect(1))
+                .paymentType(
+                        new PaymentType()
+                                .name("Cash")
                 )
-                .withAmountCents(2000L)
-                .withPerson(testPerson)
-                .build();
+                .amountCents(2000L)
+                .person(testPerson);
         //and the payment service return the payment above
         when(paymentService.findById(PAYMENT_ID)).thenReturn(aPayment);
 
@@ -168,8 +157,7 @@ class PersonControllerTest extends AbstractTest {
         //given a request
         PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
         //and an created object
-        Person createdPerson = Person.Builder.aPerson()
-                .build();
+        Person createdPerson = new Person();
         createdPerson.setId(PERSON_ID);
         //and we trust the service to save the object correctly so that it can return the object
         when(personService.save(ArgumentMatchers.any(Person.class))).thenReturn(createdPerson);

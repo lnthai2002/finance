@@ -24,11 +24,11 @@ public class MapCategoryService extends MapCrudService<Category> implements Cate
 
     @Override
     public Set<Category> findAllExpenseCategories() {
-        return super.findAll().stream().filter(category -> category.getEffect() < 0).collect(Collectors.toSet());
+        return super.findAll().stream().filter(category -> category.effect() < 0).collect(Collectors.toSet());
     }
 
     @Override
     public Set<Category> findAllIncomeCategories() {
-        return super.findAll().stream().filter(category -> category.getEffect() > 0).collect(Collectors.toSet());
+        return super.findAll().stream().filter(category -> category.effect() > 0).collect(Collectors.toSet());
     }
 }
