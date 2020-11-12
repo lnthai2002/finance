@@ -80,6 +80,6 @@ public class PersonController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .headers(responseHeader)
-                .body(personMapper.fromDomain(person));
+                .body(null);
     }
 }

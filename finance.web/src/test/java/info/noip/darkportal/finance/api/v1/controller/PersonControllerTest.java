@@ -174,8 +174,6 @@ class PersonControllerTest extends AbstractTest {
         PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
         //and an created object
         Person createdPerson = Person.Builder.aPerson()
-                .withFirstName(FIRST_NAME)
-                .withLastName(LAST_NAME)
                 .build();
         createdPerson.setId(PERSON_ID);
         //and we trust the service to save the object correctly so that it can return the object
@@ -186,8 +184,6 @@ class PersonControllerTest extends AbstractTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(requestDTO)))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
-            .andExpect(jsonPath("$.lastName").value(LAST_NAME))
             .andExpect(header().exists(HttpHeaders.LOCATION));
     }
 }
