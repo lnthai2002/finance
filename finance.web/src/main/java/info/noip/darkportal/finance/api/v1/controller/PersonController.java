@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,16 @@ public class PersonController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .headers(responseHeader)
+                .body(null);
+    }
+
+    @PutMapping("/{personId}")
+    public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable Long personId, @RequestBody PersonRequestDTO personReq) {
+        Person person = personMapper.fromDto(personReq);
+        person.id(personId);//JPA do an update if the ID exists
+        personService.save(person);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
                 .body(null);
     }
 }

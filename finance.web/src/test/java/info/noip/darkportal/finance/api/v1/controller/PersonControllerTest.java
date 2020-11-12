@@ -23,8 +23,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class PersonControllerTest extends AbstractTest {
@@ -168,5 +167,24 @@ class PersonControllerTest extends AbstractTest {
                 .content(asJsonString(requestDTO)))
             .andExpect(status().isCreated())
             .andExpect(header().exists(HttpHeaders.LOCATION));
+    }
+
+    @Test
+    void updatePerson() throws Exception {
+        //given a request
+        PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
+        //and the updated person
+        Person updatedPerson = new Person()
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .id(PERSON_ID);
+        //and assuming the person service is correctly implemented
+        when(personService.save(ArgumentMatchers.any(Person.class))).thenReturn(updatedPerson);
+
+        //act
+        mvc.perform(put("/people/" + PERSON_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(requestDTO)))
+            .andExpect(status().isNoContent());
     }
 }
