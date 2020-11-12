@@ -49,4 +49,14 @@ public class JpaPersonService implements PersonService {
     public void deleteById(Long id) {
         personRepository.deleteById(id);
     }
+
+    @Override
+    public void update(Person object) {
+        if (personRepository.existsById(object.id())) {//update
+            personRepository.save(object);
+        }
+        else {
+            throw new EntityNotFoundException("Person not existed");
+        }
+    }
 }

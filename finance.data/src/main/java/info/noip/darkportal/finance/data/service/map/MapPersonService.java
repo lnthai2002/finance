@@ -1,6 +1,7 @@
 package info.noip.darkportal.finance.data.service.map;
 
 import info.noip.darkportal.finance.data.model.Person;
+import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.PersonService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,16 @@ public class MapPersonService extends MapCrudService<Person> implements PersonSe
                 object.id(getNextId());
             }
             return super.save(object.id(), object);
+        }
+    }
+
+    @Override
+    public void update(Person object) {
+        if (map.containsKey(object.id())) {
+            map.put(object.id(), object);
+        }
+        else {
+            throw new EntityNotFoundException("Person not exists");
         }
     }
 }

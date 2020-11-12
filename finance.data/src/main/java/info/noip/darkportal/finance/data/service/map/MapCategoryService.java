@@ -1,6 +1,7 @@
 package info.noip.darkportal.finance.data.service.map;
 
 import info.noip.darkportal.finance.data.model.Category;
+import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.CategoryService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,16 @@ public class MapCategoryService extends MapCrudService<Category> implements Cate
                 object.id(getNextId());
             }
             return super.save(object.id(), object);
+        }
+    }
+
+    @Override
+    public void update(Category object) {
+        if (map.containsKey(object.id())) {
+            map.put(object.id(), object);
+        }
+        else {
+            throw new EntityNotFoundException("Category not exists");
         }
     }
 

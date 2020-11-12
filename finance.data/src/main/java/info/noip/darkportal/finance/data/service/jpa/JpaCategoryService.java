@@ -62,4 +62,15 @@ public class JpaCategoryService implements CategoryService {
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public void update(Category object) {
+        if (categoryRepository.existsById(object.id())) {
+            categoryRepository.save(object);
+        }
+        else
+        {
+            throw new EntityNotFoundException("Category not exists");
+        }
+    }
 }

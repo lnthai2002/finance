@@ -63,6 +63,17 @@ public class JpaPaymentService implements PaymentService {
     }
 
     @Override
+    public void update(Payment object) {
+        if (paymentRepository.existsById(object.id())) {
+            paymentRepository.save(object);
+        }
+        else {
+            throw new EntityNotFoundException("Payment not exists");
+        }
+
+    }
+
+    @Override
     public List<Payment> findAllExpenses(Long personId) {
         return StreamSupport.stream(
                 paymentRepository.findExpenses(personId).spliterator(), false)

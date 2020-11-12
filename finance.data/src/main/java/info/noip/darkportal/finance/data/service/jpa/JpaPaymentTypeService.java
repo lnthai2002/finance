@@ -49,4 +49,14 @@ public class JpaPaymentTypeService implements PaymentTypeService {
     public void deleteById(Long id) {
         paymentTypeRepository.deleteById(id);
     }
+
+    @Override
+    public void update(PaymentType object) {
+        if (paymentTypeRepository.existsById(object.id())) {
+            paymentTypeRepository.save(object);
+        }
+        else {
+            throw new EntityNotFoundException("Payment Type not exists");
+        }
+    }
 }

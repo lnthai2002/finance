@@ -8,4 +8,5 @@ public interface CrudService<T> {
     T findById(Long id);
     void delete(T object);
     void deleteById(Long id);
+    void update(T object);
 }
