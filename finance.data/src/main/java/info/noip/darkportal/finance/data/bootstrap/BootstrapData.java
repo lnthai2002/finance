@@ -58,14 +58,10 @@ public class BootstrapData implements CommandLineRunner {
         //some people
         Person john = new Person()
             .firstName("John")
-            .lastName("Doe")
-            .incomes(null)
-            .expenses(null);
+            .lastName("Doe");
         Person jane = new Person()
             .firstName("Jane")
-            .lastName("Catherine")
-            .incomes(null)
-            .expenses(null);
+            .lastName("Catherine");
         personRepository.save(john);
         personRepository.save(jane);
 

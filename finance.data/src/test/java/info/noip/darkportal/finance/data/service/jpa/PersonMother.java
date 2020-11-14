@@ -8,8 +8,6 @@ public class PersonMother {
     public static Person complete() {
         return new Person()
                 .firstName("Jamie")
-                .lastName("Lanister")
-                .incomes(Collections.emptyList())
-                .expenses(Collections.emptyList());
+                .lastName("Lanister");
     }
 }

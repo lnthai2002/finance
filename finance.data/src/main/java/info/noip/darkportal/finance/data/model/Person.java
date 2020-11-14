@@ -1,12 +1,10 @@
 package info.noip.darkportal.finance.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -18,14 +16,6 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
-
-    @OneToMany(mappedBy = "person")
-    @JsonIgnoreProperties("person")
-    private List<Payment> incomes;
-
-    @OneToMany(mappedBy = "person")
-    @JsonIgnoreProperties("person")
-    private List<Payment> expenses;
 
     public Person() {
     }

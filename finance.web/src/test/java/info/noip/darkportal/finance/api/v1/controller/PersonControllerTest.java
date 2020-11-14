@@ -83,9 +83,10 @@ class PersonControllerTest extends AbstractTest {
                                 .name("Paypal")
                 )
                 .person(testPerson);
-        testPerson.expenses(Arrays.asList(expense));
         //given that the person service will return 1 person with an expense
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
+        //and the payment service return the expense above for the person
+        when(paymentService.findAllExpenses(testPerson.id())).thenReturn(Arrays.asList(expense));
 
         //we expect an array of Payment, each has amount less than 0
         mvc.perform(get("/people/" + PERSON_ID + "/expenses"))
@@ -110,9 +111,10 @@ class PersonControllerTest extends AbstractTest {
                                 .name("Cash")
                 )
                 .person(testPerson);
-        testPerson.incomes(Arrays.asList(income));
         //given that the person service will return 1 person with an income
         when(personService.findById(PERSON_ID)).thenReturn(testPerson);
+        //and the payment service return the income above for the person
+        when(paymentService.findAllIncomes(testPerson.id())).thenReturn(Arrays.asList(income));
 
         //we expect an array of Payment, each has amount more than 0
         mvc.perform(get("/people/" + PERSON_ID + "/incomes"))

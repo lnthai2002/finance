@@ -49,14 +49,14 @@ public class PersonController {
 
     @GetMapping("/{personId}/expenses")
     public List<PaymentResponseDTO> getExpenses(@PathVariable Long personId) {
-        return personService.findById(personId).expenses().stream()
+        return paymentService.findAllExpenses(personId).stream()
                 .map(payment -> paymentMapper.fromDomain(payment))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{personId}/incomes")
     public List<PaymentResponseDTO> getIncomes(@PathVariable Long personId) {
-        return personService.findById(personId).incomes().stream()
+        return paymentService.findAllIncomes(personId).stream()
                 .map(payment -> paymentMapper.fromDomain(payment))
                 .collect(Collectors.toList());
     }
