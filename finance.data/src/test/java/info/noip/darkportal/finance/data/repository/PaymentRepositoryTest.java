@@ -56,18 +56,14 @@ class PaymentRepositoryTest {
                 .effect(1);
         categoryRepository.save(salary);
 
-        Payment expense = new Payment()
+        Payment expense = new Payment(grocery, 20000L)
                 .transactionDate(LocalDate.now())
-                .category(grocery)
-                .amountCents(20000L)
                 .person(employee1)
                 .paymentType(cash);
         paymentRepository.save(expense);
 
-        Payment income = new Payment()
+        Payment income = new Payment(salary, 100000L)
                 .transactionDate(LocalDate.now())
-                .category(salary)
-                .amountCents(100000L)
                 .person(employee1)
                 .paymentType(cash);
         paymentRepository.save(income);
@@ -76,10 +72,8 @@ class PaymentRepositoryTest {
     @Test
     void save() {
         //given
-        Payment payment = new Payment()
+        Payment payment = new Payment(CategoryMother.complete(), 10000L)
                 .transactionDate(LocalDate.now())
-                .category(CategoryMother.complete())
-                .amountCents(10000L)
                 .paymentType(PaymentTypeMother.complete())
                 .person(PersonMother.complete());
 

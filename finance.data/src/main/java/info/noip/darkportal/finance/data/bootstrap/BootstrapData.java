@@ -71,31 +71,23 @@ public class BootstrapData implements CommandLineRunner {
 
         //some payment
         DateTimeFormatter dateFm = DateTimeFormatter.ofPattern("yyyy-MM-d");
-        Payment p1 = new Payment()
+        Payment p1 = new Payment(housing, 100000L)
         .transactionDate(LocalDate.parse("2020-01-10", dateFm))
-        .category(housing)
-        .amountCents(100000L)
         .paymentType(debitCard)
         .person(jane);
 
-        Payment p2 = new Payment()
+        Payment p2 = new Payment(grocery, 20000L)
         .transactionDate(LocalDate.parse("2020-01-11", dateFm))
-        .category(grocery)
-        .amountCents(20000L)
         .paymentType(creditCard)
         .person(john);
 
-        Payment p3 = new Payment()
+        Payment p3 = new Payment(electricity, 10000L)
         .transactionDate(LocalDate.parse("2020-01-12", dateFm))
-        .category(electricity)
-        .amountCents(10000L)
         .paymentType(paypal)
         .person(jane);
 
-        Payment p4 = new Payment()
+        Payment p4 = new Payment(salary, 150000L)
         .transactionDate(LocalDate.parse("2020-01-13", dateFm))
-        .category(salary)
-        .amountCents(150000L)
         .paymentType(debitCard)
         .person(jane);
 

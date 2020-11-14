@@ -29,7 +29,21 @@ public class Payment {
     @JsonIgnoreProperties({"expenses", "incomes"})
     private Person person;
 
-    public Payment() {
+    /**
+     * This constructor should only be used by ORM/JPA
+     */
+    protected Payment() {
+    }
+
+    /**
+     * Business logic should use this constructor
+     * */
+    public Payment(Category category, Long amountCents) {
+        this.category = category;
+        if(category == null || category.effect() == null) {
+            throw new IllegalStateException("Cannot determine if this is an expense or income");
+        }
+        this.amountCents = Math.abs(amountCents) * category.effect();
     }
 
     public Payment amountCents(Long amount) {

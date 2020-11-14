@@ -10,10 +10,8 @@ public class PaymentMother {
      * Create a complete Payment object
      * */
     public static Payment complete() {
-        return new Payment()
+        return new Payment(CategoryMother.complete(), 15000L)
                 .transactionDate(LocalDate.now())
-                .category(CategoryMother.complete())
-                .amountCents(15000L)
                 .paymentType(PaymentTypeMother.complete())
                 .person(PersonMother.complete());
     }

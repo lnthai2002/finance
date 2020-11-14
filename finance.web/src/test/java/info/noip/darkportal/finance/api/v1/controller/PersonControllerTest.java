@@ -73,18 +73,15 @@ class PersonControllerTest extends AbstractTest {
     void shouldReturnAllExpensesForAPerson() throws Exception {
         Person testPerson = new Person();
         testPerson.id(PERSON_ID);
-        Payment expense = new Payment()
+        Payment expense = new Payment(
+                    new Category().name("Grocery").effect(-1),
+                    10000L
+                )
                 .transactionDate(LocalDate.now())
                 .paymentType(
                         new PaymentType()
                                 .name("Paypal")
                 )
-                .category(
-                        new Category()
-                                .name("Grocery")
-                                .effect(-1)
-                )
-                .amountCents(10000L)
                 .person(testPerson);
         testPerson.expenses(Arrays.asList(expense));
         //given that the person service will return 1 person with an expense
@@ -103,18 +100,15 @@ class PersonControllerTest extends AbstractTest {
     void shouldReturnAllIncomesForAPerson() throws Exception {
         Person testPerson = new Person();
         testPerson.id(PERSON_ID);
-        Payment income = new Payment()
+        Payment income = new Payment(
+                    new Category().name("Salary").effect(1),
+                    200000L
+                )
                 .transactionDate(LocalDate.now())
                 .paymentType(
                         new PaymentType()
                                 .name("Cash")
                 )
-                .category(
-                        new Category()
-                                .name("Salary")
-                                .effect(1)
-                )
-                .amountCents(200000L)
                 .person(testPerson);
         testPerson.incomes(Arrays.asList(income));
         //given that the person service will return 1 person with an income
@@ -135,13 +129,11 @@ class PersonControllerTest extends AbstractTest {
         Person testPerson = new Person();
         testPerson.id(PERSON_ID);
         //and a payment belongs to such a person
-        Payment aPayment = new Payment()
-                .category(new Category().effect(1))
+        Payment aPayment = new Payment(new Category().effect(1), 2000L)
                 .paymentType(
                         new PaymentType()
                                 .name("Cash")
                 )
-                .amountCents(2000L)
                 .person(testPerson);
         //and the payment service return the payment above
         when(paymentService.findById(PAYMENT_ID)).thenReturn(aPayment);
