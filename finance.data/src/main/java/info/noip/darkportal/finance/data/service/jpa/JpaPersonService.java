@@ -61,4 +61,18 @@ public class JpaPersonService implements PersonService {
             throw new EntityNotFoundException("Person not existed");
         }
     }
+
+    @Override
+    @Transactional
+    public void patch(Person personWithNewInfo) {
+        Person person = personRepository.findById(personWithNewInfo.id())
+                .orElseThrow(() -> new EntityNotFoundException("Person not exists"));
+        if (personWithNewInfo.firstName() != null) {
+            person.firstName(personWithNewInfo.firstName());
+        }
+        if (personWithNewInfo.lastName() != null) {
+            person.lastName(personWithNewInfo.lastName());
+        }
+        personRepository.save(person);
+    }
 }

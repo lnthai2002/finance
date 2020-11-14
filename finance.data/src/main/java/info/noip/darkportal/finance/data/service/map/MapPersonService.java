@@ -29,4 +29,17 @@ public class MapPersonService extends MapCrudService<Person> implements PersonSe
             throw new EntityNotFoundException("Person not exists");
         }
     }
+
+    @Override
+    public void patch(Person personWithNewInfo) {
+        Person existingPerson = map.get(personWithNewInfo.id());
+        if (existingPerson != null) {
+            if (personWithNewInfo.firstName() != null) {
+                existingPerson.firstName(personWithNewInfo.firstName());
+            }
+            if (personWithNewInfo.lastName() != null) {
+                existingPerson.lastName(personWithNewInfo.lastName());
+            }
+        }
+    }
 }

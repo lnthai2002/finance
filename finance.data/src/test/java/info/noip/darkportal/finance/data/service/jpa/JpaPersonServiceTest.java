@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -59,5 +61,33 @@ class JpaPersonServiceTest {
         //act and validate
         jpaPersonService.update(updatePerson);
         verify(personRepository, times(1)).save(updatePerson);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPatchingANonExistedPerson() {
+        //given
+        final Long nonExistingId = 9999L;
+        Person personWithNewInfo = new Person().firstName(FIRST_NAME).lastName(LAST_NAME).id(nonExistingId);
+        when(personRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+        JpaPersonService jpaPersonService = new JpaPersonService(personRepository, messages);
+
+        //act and validate
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    jpaPersonService.patch(personWithNewInfo);
+                });
+    }
+
+    @Test
+    void shouldPatchTheGivenPerson() {
+        //given
+        Person existingPerson = new Person().firstName(FIRST_NAME).lastName(LAST_NAME).id(PERSON_ID);
+        Person personWithNewInfo = new Person().firstName("Jesus").lastName("Davinci").id(PERSON_ID);
+        when(personRepository.findById(PERSON_ID)).thenReturn(Optional.of(existingPerson));
+        JpaPersonService jpaPersonService = new JpaPersonService(personRepository, messages);
+
+        //act and validate
+        jpaPersonService.patch(personWithNewInfo);
+        verify(personRepository, times(1)).save(existingPerson);
     }
 }
