@@ -99,4 +99,20 @@ public class PersonController {
                     .body(null);
         }
     }
+
+    @PatchMapping("/{personId}")
+    public ResponseEntity<PersonResponseDTO> patchPerson(@PathVariable Long personId, @RequestBody PersonRequestDTO personReq) {
+        Person person = personMapper.fromDto(personReq);
+        person.id(personId);//JPA do an update if the ID exists
+        try {
+            personService.patch(person);
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(null);
+        }
+        catch (EntityNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 }

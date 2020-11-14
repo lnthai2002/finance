@@ -7,13 +7,12 @@ import info.noip.darkportal.finance.data.model.Category;
 import info.noip.darkportal.finance.data.model.Payment;
 import info.noip.darkportal.finance.data.model.PaymentType;
 import info.noip.darkportal.finance.data.model.Person;
+import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
 import info.noip.darkportal.finance.data.service.PaymentService;
 import info.noip.darkportal.finance.data.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,7 +21,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,6 +38,9 @@ class PersonControllerTest extends AbstractTest {
     private PaymentService paymentService;
 
     private PersonController personController;
+
+    @Captor
+    ArgumentCaptor<Person> personArgumentCaptor;
 
     @BeforeEach
     public void before() {
@@ -186,5 +189,38 @@ class PersonControllerTest extends AbstractTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(requestDTO)))
             .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldReturn404WhenPatchANonExistedPerson() throws Exception {
+        //given a request
+        PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
+        //and assuming the person service blowing up because the person does not exist
+        doThrow(new EntityNotFoundException("")).when(personService).patch(personArgumentCaptor.capture());
+
+        //act
+        mvc.perform(patch("/people/" + PERSON_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(requestDTO)))
+                .andExpect(status().isNotFound());
+        Person subjectToPatch = personArgumentCaptor.getValue();
+        assertEquals(subjectToPatch.firstName(), FIRST_NAME);
+        assertEquals(subjectToPatch.lastName(), LAST_NAME);
+    }
+
+    @Test
+    void shouldReturn204WhenPatchAnExistedPerson() throws Exception {
+        //given a request
+        PersonRequestDTO requestDTO = new PersonRequestDTO(FIRST_NAME, LAST_NAME);
+        //act
+        mvc.perform(patch("/people/" + PERSON_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(requestDTO)))
+                .andExpect(status().isNoContent());
+        //validate
+        verify(personService, times(1)).patch(personArgumentCaptor.capture());
+        Person subjectToPatch = personArgumentCaptor.getValue();
+        assertEquals(subjectToPatch.firstName(), FIRST_NAME);
+        assertEquals(subjectToPatch.lastName(), LAST_NAME);
     }
 }
