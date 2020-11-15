@@ -47,8 +47,14 @@ public class JpaPersonService implements PersonService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        personRepository.deleteById(id);
+        if (personRepository.existsById(id)) {
+            personRepository.deleteById(id);
+        }
+        else{
+            throw new EntityNotFoundException(messages.get("jpa.entityNotFound"));
+        }
     }
 
     @Override

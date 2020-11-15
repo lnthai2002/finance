@@ -90,4 +90,29 @@ class JpaPersonServiceTest {
         jpaPersonService.patch(personWithNewInfo);
         verify(personRepository, times(1)).save(existingPerson);
     }
+
+    @Test
+    void shouldThrowExceptionWhenDeletingANonExistingPerson() {
+        //given that
+        when(personRepository.existsById(PERSON_ID)).thenReturn(false);
+        JpaPersonService jpaPersonService = new JpaPersonService(personRepository, messages);
+
+        //act and expect exception
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> jpaPersonService.deleteById(PERSON_ID));
+    }
+
+    @Test
+    void shouldDeleteAnExistingPerson() {
+        //given that the person ID exist in the repository
+        when(personRepository.existsById(PERSON_ID)).thenReturn(true);
+        JpaPersonService jpaPersonService = new JpaPersonService(personRepository, messages);
+
+        //act
+        jpaPersonService.deleteById(PERSON_ID);
+
+        //validate that the service did call the repository to delete. We cannot guarantee that the repository actually delete, that is a test to be done on the repository impl
+        verify(personRepository, times(1)).deleteById(PERSON_ID);
+    }
 }

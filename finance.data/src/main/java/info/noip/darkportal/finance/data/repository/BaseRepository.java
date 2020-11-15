@@ -9,4 +9,7 @@ import java.io.Serializable;
 public interface BaseRepository<T, ID extends Serializable> extends PagingAndSortingRepository<T, ID> {
     //T findOne(ID id);
     <S extends T> S save(S entity);
+
+    @Override
+    void deleteById(ID id);
 }
