@@ -115,4 +115,18 @@ public class PersonController {
                     .body(null);
         }
     }
+
+    @DeleteMapping("/{personId}")
+    public ResponseEntity<PersonResponseDTO> deletePerson(@PathVariable Long personId) {
+        try {
+            personService.deleteById(personId);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(null);
+        }
+        catch (EntityNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 }

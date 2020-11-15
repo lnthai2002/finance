@@ -217,4 +217,28 @@ class PersonControllerTest extends AbstractTest {
         assertEquals(subjectToPatch.firstName(), FIRST_NAME);
         assertEquals(subjectToPatch.lastName(), LAST_NAME);
     }
+
+    @Test
+    void shouldReturn200WhenDeleteAnExistingPerson() throws Exception {
+        //given that the person id exist
+        //act
+        mvc.perform(delete("/people/" + PERSON_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+            .andExpect(status().isOk());
+        //validate
+        verify(personService, times(1)).deleteById(PERSON_ID);
+    }
+
+    @Test
+    void shouldReturn404WhenDeleteANonExistingPerson() throws Exception {
+        //given that the person service refuse to delete because the person does not exist
+        doThrow(new EntityNotFoundException("")).when(personService).deleteById(PERSON_ID);
+
+        //act
+        mvc.perform(delete("/people/" + PERSON_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+            .andExpect(status().isNotFound());
+    }
 }
