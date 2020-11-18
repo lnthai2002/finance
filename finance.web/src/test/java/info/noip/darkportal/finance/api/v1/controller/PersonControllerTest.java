@@ -203,11 +203,12 @@ class PersonControllerTest extends AbstractTest {
         //and assuming the person service blowing up because the person does not exist
         doThrow(new EntityNotFoundException("")).when(personService).patch(personArgumentCaptor.capture());
 
-        //act
+        //act and expect 404 status
         mvc.perform(patch("/people/" + PERSON_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(requestDTO)))
                 .andExpect(status().isNotFound());
+        //also make sure that the controller did call the person service to update the person info sent in the request
         Person subjectToPatch = personArgumentCaptor.getValue();
         assertEquals(subjectToPatch.firstName(), FIRST_NAME);
         assertEquals(subjectToPatch.lastName(), LAST_NAME);
