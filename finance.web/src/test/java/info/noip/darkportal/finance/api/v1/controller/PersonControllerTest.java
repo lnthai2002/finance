@@ -36,6 +36,7 @@ class PersonControllerTest extends AbstractTest {
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Smith";
     private static final Long PAYMENT_ID = 1L;
+
     @Mock
     private PersonService personService;
     @Mock
@@ -57,8 +58,10 @@ class PersonControllerTest extends AbstractTest {
         PaymentMapper paymentMapper = new PaymentMapper(categoryService, paymentTypeService, personService);
         //a PersonController with mocked services
         personController = new PersonController(personService, paymentService, null, personMapper, paymentMapper);
-        //a mock MVC with only 1 controller
-        mvc = MockMvcBuilders.standaloneSetup(personController).build();
+        //a mock MVC with only 1 controller and a exception handler to convert exception to http error response
+        mvc = MockMvcBuilders.standaloneSetup(personController)
+                .setControllerAdvice(new RestExceptionHandler())
+                .build();
     }
 
     @Test

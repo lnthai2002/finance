@@ -89,70 +89,45 @@ public class PersonController {
     public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable Long personId, @RequestBody PersonRequestDTO personReq) {
         Person person = personMapper.fromDto(personReq);
         person.id(personId);//JPA do an update if the ID exists
-        try {
-            personService.update(person);
-            return ResponseEntity
-                    .status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        }
-        catch (EntityNotFoundException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+        personService.update(person);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
     }
 
     @PatchMapping("/{personId}")
     public ResponseEntity<PersonResponseDTO> patchPerson(@PathVariable Long personId, @RequestBody PersonRequestDTO personReq) {
         Person person = personMapper.fromDto(personReq);
         person.id(personId);//JPA do an update if the ID exists
-        try {
-            personService.patch(person);
-            return ResponseEntity
-                    .status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        }
-        catch (EntityNotFoundException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+        personService.patch(person);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
     }
 
     @DeleteMapping("/{personId}")
     public ResponseEntity<PersonResponseDTO> deletePerson(@PathVariable Long personId) {
-        try {
-            personService.deleteById(personId);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(null);
-        }
-        catch (EntityNotFoundException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+        personService.deleteById(personId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(null);
     }
 
     @PostMapping("/{personId}/payments")
     public ResponseEntity<PaymentResponseDTO> createPayment(@PathVariable Long personId,
                                                             @RequestBody PaymentRequestDTO paymentDto,
                                                             UriComponentsBuilder uriComponentsBuilder) {
-        try {
-            paymentDto.setOwnerId(personId);
-            Payment payment = paymentService.save(paymentMapper.fromDto(paymentDto));
-            HttpHeaders responseHeader = new HttpHeaders();
-            responseHeader.set(
-                    HttpHeaders.LOCATION,
-                    uriComponentsBuilder.path("/people/{personId}/payments/{paymentId}")
-                            .buildAndExpand(personId, payment.id())
-                            .toUriString());
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .headers(responseHeader)
-                    .body(null);
-        }
-        catch (EntityNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+        paymentDto.setOwnerId(personId);
+        Payment payment = paymentService.save(paymentMapper.fromDto(paymentDto));
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set(
+                HttpHeaders.LOCATION,
+                uriComponentsBuilder.path("/people/{personId}/payments/{paymentId}")
+                        .buildAndExpand(personId, payment.id())
+                        .toUriString());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .headers(responseHeader)
+                .body(null);
     }
 }
