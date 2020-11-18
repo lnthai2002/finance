@@ -1,5 +1,6 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
+import info.noip.darkportal.finance.api.v1.dto.PaymentRequestDTO;
 import info.noip.darkportal.finance.api.v1.dto.PaymentResponseDTO;
 import info.noip.darkportal.finance.api.v1.dto.PersonRequestDTO;
 import info.noip.darkportal.finance.api.v1.dto.PersonResponseDTO;
@@ -126,6 +127,31 @@ public class PersonController {
         }
         catch (EntityNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @PostMapping("/{personId}/payments")
+    public ResponseEntity<PaymentResponseDTO> createPayment(@PathVariable Long personId,
+                                                            @RequestBody PaymentRequestDTO paymentDto,
+                                                            UriComponentsBuilder uriComponentsBuilder) {
+        try {
+            paymentDto.setOwnerId(personId);
+            Payment payment = paymentService.save(paymentMapper.fromDto(paymentDto));
+            HttpHeaders responseHeader = new HttpHeaders();
+            responseHeader.set(
+                    HttpHeaders.LOCATION,
+                    uriComponentsBuilder.path("/people/{personId}/payments/{paymentId}")
+                            .buildAndExpand(personId, payment.id())
+                            .toUriString());
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .headers(responseHeader)
+                    .body(null);
+        }
+        catch (EntityNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .body(null);
         }
     }

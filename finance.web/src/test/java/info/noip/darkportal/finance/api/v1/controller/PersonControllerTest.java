@@ -1,5 +1,6 @@
 package info.noip.darkportal.finance.api.v1.controller;
 
+import info.noip.darkportal.finance.api.v1.dto.PaymentRequestDTO;
 import info.noip.darkportal.finance.api.v1.dto.PersonRequestDTO;
 import info.noip.darkportal.finance.api.v1.mapper.PaymentMapper;
 import info.noip.darkportal.finance.api.v1.mapper.PersonMapper;
@@ -8,7 +9,9 @@ import info.noip.darkportal.finance.data.model.Payment;
 import info.noip.darkportal.finance.data.model.PaymentType;
 import info.noip.darkportal.finance.data.model.Person;
 import info.noip.darkportal.finance.data.repository.EntityNotFoundException;
+import info.noip.darkportal.finance.data.service.CategoryService;
 import info.noip.darkportal.finance.data.service.PaymentService;
+import info.noip.darkportal.finance.data.service.PaymentTypeService;
 import info.noip.darkportal.finance.data.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
@@ -36,6 +40,10 @@ class PersonControllerTest extends AbstractTest {
     private PersonService personService;
     @Mock
     private PaymentService paymentService;
+    @Mock
+    private CategoryService categoryService;
+    @Mock
+    private PaymentTypeService paymentTypeService;
 
     private PersonController personController;
 
@@ -45,7 +53,7 @@ class PersonControllerTest extends AbstractTest {
     @BeforeEach
     public void before() {
         PersonMapper personMapper = new PersonMapper();
-        PaymentMapper paymentMapper = new PaymentMapper();
+        PaymentMapper paymentMapper = new PaymentMapper(categoryService, paymentTypeService, personService);
         MockitoAnnotations.initMocks(this);//inject mock objects to this class
         //a PersonController with mocked services
         personController = new PersonController(personService, paymentService, null, personMapper, paymentMapper);
@@ -239,6 +247,27 @@ class PersonControllerTest extends AbstractTest {
         mvc.perform(delete("/people/" + PERSON_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(""))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn404WhenCreatingAPaymentWithInvalidCategory() throws Exception {
+        //given a request
+        long unknownCategoryId = 200L;
+        DateTimeFormatter dateFm = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        PaymentRequestDTO request = new PaymentRequestDTO(
+                LocalDate.now().format(dateFm),
+                10000L,
+                100L,
+                unknownCategoryId,
+                PERSON_ID);
+        //and the categoryService cannot find the category with the given ID
+        when(categoryService.findById(unknownCategoryId)).thenThrow(EntityNotFoundException.class);
+
+        //act
+        mvc.perform(post("/people/" + PERSON_ID +"/payments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request)))
             .andExpect(status().isNotFound());
     }
 }
