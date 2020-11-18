@@ -52,9 +52,9 @@ class PersonControllerTest extends AbstractTest {
 
     @BeforeEach
     public void before() {
+        MockitoAnnotations.initMocks(this);//inject mock objects to this class, should be first statement
         PersonMapper personMapper = new PersonMapper();
         PaymentMapper paymentMapper = new PaymentMapper(categoryService, paymentTypeService, personService);
-        MockitoAnnotations.initMocks(this);//inject mock objects to this class
         //a PersonController with mocked services
         personController = new PersonController(personService, paymentService, null, personMapper, paymentMapper);
         //a mock MVC with only 1 controller
